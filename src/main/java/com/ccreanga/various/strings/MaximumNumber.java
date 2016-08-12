@@ -25,8 +25,10 @@ public class MaximumNumber {
             }
             if (s1Len>s2Len)
                 return s2.charAt(0)-s1.charAt(s1Len-1);
-            else
+            else if (s1Len<s2Len)
                 return s2.charAt(s2Len-1)-s1.charAt(0);
+            else//both are equal
+                return 0;
         });
         for (String value : s) {
             result.append(value);
