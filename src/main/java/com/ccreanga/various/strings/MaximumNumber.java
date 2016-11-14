@@ -2,6 +2,11 @@ package com.ccreanga.various.strings;
 
 import java.util.Arrays;
 
+
+/**
+ * Assume a string array composed from positive numbers eq '12','124','43','125' . Obtain the largest number by
+ * concatenating the array numbers eg 4312512412
+ */
 public class MaximumNumber {
 
     public static String computeMaximumNumber(String[] s){
