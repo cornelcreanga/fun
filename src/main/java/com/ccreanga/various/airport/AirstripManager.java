@@ -12,14 +12,14 @@ public class AirstripManager {
     Semaphore regular = new Semaphore(1);
 
 
-    Map<AirStrip,Semaphore> locks = new HashMap();
+    Map<AirStrip, Semaphore> locks = new HashMap();
 
     {
-        locks.put(regularAirstrip,regular);
-        locks.put(largeAirstrip,large);
+        locks.put(regularAirstrip, regular);
+        locks.put(largeAirstrip, large);
     }
 
-    public AirStrip acquire(Airplane airplane){
+    public AirStrip acquire(Airplane airplane) {
         if (airplane.isRegular()) {
             if (regular.tryAcquire()) {
                 return regularAirstrip;
@@ -31,7 +31,7 @@ public class AirstripManager {
         return null;
     }
 
-    public void release(AirStrip airStrip){
+    public void release(AirStrip airStrip) {
         locks.get(airStrip).release();
     }
 

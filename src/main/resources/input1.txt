@@ -5,5 +5,5 @@ Plane-4, Large, Emergency, 4
 Plane-5, Regular, Emergency, 4
 Plane-6, Regular, Normal, 4
 Plane-7, Regular, Normal, 4
-Plane-8, Regular, Normal, 40
-Plane-9, Regular, Normal, 40
+Plane-8, Regular, Normal, 30
+Plane-9, Regular, Normal, 30

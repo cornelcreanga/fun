@@ -1,7 +1,6 @@
 package com.ccreanga.various;
 
 
-
 import java.util.HashMap;
 
 public class WellFormedText {
@@ -9,45 +8,45 @@ public class WellFormedText {
 
     public boolean isWellFormed(String s) {
         int deschise = 0;
-        HashMap<Character,Integer> paranteze = new HashMap<>();
-        paranteze.put('{',0);
-        paranteze.put('(',0);
-        paranteze.put('[',0);
+        HashMap<Character, Integer> paranteze = new HashMap<>();
+        paranteze.put('{', 0);
+        paranteze.put('(', 0);
+        paranteze.put('[', 0);
         boolean intercalate = false;
 
         for (int i = 0; i < s.length() && !intercalate; i++) {
-            if ( paranteze.get('{')<0 ||  paranteze.get('[')<0 ||  paranteze.get('(')<0) {
-                intercalate=true;
+            if (paranteze.get('{') < 0 || paranteze.get('[') < 0 || paranteze.get('(') < 0) {
+                intercalate = true;
             }
             switch (s.charAt(i)) {
                 case '{': {
                     deschise++;
-                    paranteze.put('{',  paranteze.get('{') + 1);
+                    paranteze.put('{', paranteze.get('{') + 1);
                     break;
                 }
                 case '[': {
                     deschise++;
-                    paranteze.put('[',  paranteze.get('[') + 1);
+                    paranteze.put('[', paranteze.get('[') + 1);
                     break;
                 }
                 case '(': {
                     deschise++;
-                    paranteze.put('(',  paranteze.get('(') + 1);
+                    paranteze.put('(', paranteze.get('(') + 1);
                     break;
                 }
                 case '}': {
                     deschise--;
-                    paranteze.put('{',  paranteze.get('{') - 1);
+                    paranteze.put('{', paranteze.get('{') - 1);
                     break;
                 }
                 case ']': {
                     deschise--;
-                    paranteze.put('[',  paranteze.get('[') - 1);
+                    paranteze.put('[', paranteze.get('[') - 1);
                     break;
                 }
                 case ')': {
                     deschise--;
-                    paranteze.put('(',  paranteze.get('(') - 1);
+                    paranteze.put('(', paranteze.get('(') - 1);
                     break;
                 }
 
@@ -97,7 +96,7 @@ public class WellFormedText {
 
     public static void main(String[] args) {
         WellFormedText wellFormedText = new WellFormedText();
-        if (args.length==0){
+        if (args.length == 0) {
             System.err.println("no argument provided");
             System.exit(1);
         }

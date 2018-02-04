@@ -4,8 +4,8 @@ import com.ccreanga.various.airport.AirStrip;
 import com.ccreanga.various.airport.Airplane;
 
 public class LandedMessage implements AirplaneMessage {
-    Airplane airplane;
-    AirStrip airstrip;
+    private Airplane airplane;
+    private AirStrip airstrip;
 
     public LandedMessage(Airplane airplane, AirStrip airstrip) {
         this.airplane = airplane;

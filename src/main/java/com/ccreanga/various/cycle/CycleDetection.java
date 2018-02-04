@@ -24,12 +24,11 @@ public class CycleDetection {
         return solution;
     }
 
-    public static int tortoiseAndHare(int [] a)
-    {
-        int t=a[0],h=a[a[0]];
-        while(t!=h){
-            t=a[t];
-            h=a[a[h]];
+    public static int tortoiseAndHare(int[] a) {
+        int t = a[0], h = a[a[0]];
+        while (t != h) {
+            t = a[t];
+            h = a[a[h]];
         }
 
 //        int mu = 0;
@@ -42,8 +41,8 @@ public class CycleDetection {
 
         int counter = 1;
         h = a[t];
-        while (t != h){
-            h=a[h];
+        while (t != h) {
+            h = a[h];
             counter++;
         }
 
@@ -51,30 +50,28 @@ public class CycleDetection {
     }
 
 
-
-
     public static void main(String[] args) {
         int size = 100000;
         int[] array = new int[size];
         for (int i = 0; i < size; i++) {
-            int pos = (int)(Math.random()*size);
-            array[i]=pos;
+            int pos = (int) (Math.random() * size);
+            array[i] = pos;
         }
         //crude benchmark
-        long t1=System.currentTimeMillis();
+        long t1 = System.currentTimeMillis();
         for (int i = 0; i < 10000; i++) {
             mapBasedSolution(array);
         }
-        long t2=System.currentTimeMillis();
-        System.out.println(t2-t1);
+        long t2 = System.currentTimeMillis();
+        System.out.println(t2 - t1);
 
 
-        t1=System.currentTimeMillis();
+        t1 = System.currentTimeMillis();
         for (int i = 0; i < 10000; i++) {
             tortoiseAndHare(array);
         }
-        t2=System.currentTimeMillis();
-        System.out.println(t2-t1);
+        t2 = System.currentTimeMillis();
+        System.out.println(t2 - t1);
 
         System.out.println(mapBasedSolution(array));
         System.out.println(tortoiseAndHare(array));

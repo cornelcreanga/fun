@@ -5,8 +5,8 @@ import com.ccreanga.various.airport.Controller;
 
 public class StartLandingMessage implements ControllerMessage {
 
-    Controller controller;
-    AirStrip airStrip;
+    private Controller controller;
+    private AirStrip airStrip;
 
     public StartLandingMessage(Controller controller, AirStrip airStrip) {
         this.controller = controller;

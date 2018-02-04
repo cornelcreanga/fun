@@ -4,7 +4,7 @@ import com.ccreanga.various.airport.Airplane;
 
 public class ReadyToLandMessage implements AirplaneMessage {
 
-    Airplane airplane;
+    private Airplane airplane;
 
     public ReadyToLandMessage(Airplane airplane) {
         this.airplane = airplane;

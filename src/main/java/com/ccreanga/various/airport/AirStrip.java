@@ -18,6 +18,6 @@ public class AirStrip {
 
     @Override
     public String toString() {
-        return regular?"regular":"large";
+        return regular ? "regular" : "large";
     }
 }

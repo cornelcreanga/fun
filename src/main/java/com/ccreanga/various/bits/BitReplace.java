@@ -4,21 +4,21 @@ package com.ccreanga.various.bits;
 //todo - in fact it is a replacement rather than an insertion
 public class BitReplace {
 
-    public static long replace(long first,long second,byte start){
-        if ((start>64) || (start<0))
-            throw new IllegalArgumentException(start +" should be between 0 and 64");
+    public static long replace(long first, long second, byte start) {
+        if ((start > 64) || (start < 0))
+            throw new IllegalArgumentException(start + " should be between 0 and 64");
 
         byte bitsSecond = BitUtil.noOfBits(second);
-        if (bitsSecond>start)
-            throw new IllegalArgumentException(second +" will not fit into " +first +" from the position "+start);
+        if (bitsSecond > start)
+            throw new IllegalArgumentException(second + " will not fit into " + first + " from the position " + start);
         byte counter = 0;
-        for (byte i = (byte)(bitsSecond-1); i >= 0; i--) {
-            byte b = BitUtil.getBit(second,i);
-            byte posToReplace = (byte)(start-counter);
-            if (b==1)
-                first = BitUtil.setBit(first,posToReplace);
+        for (byte i = (byte) (bitsSecond - 1); i >= 0; i--) {
+            byte b = BitUtil.getBit(second, i);
+            byte posToReplace = (byte) (start - counter);
+            if (b == 1)
+                first = BitUtil.setBit(first, posToReplace);
             else
-                first = BitUtil.resetBit(first,posToReplace);
+                first = BitUtil.resetBit(first, posToReplace);
             counter++;
 
         }

@@ -4,7 +4,7 @@ import com.ccreanga.various.airport.Controller;
 
 public class CircleMessage implements ControllerMessage {
 
-    Controller controller;
+    private Controller controller;
 
     public CircleMessage(Controller controller) {
         this.controller = controller;
