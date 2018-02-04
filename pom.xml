@@ -14,9 +14,15 @@
         <junit.version>RELEASE</junit.version>
         <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
         <guava.version>19.0</guava.version>
+        <commons-csv.version>1.5</commons-csv.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>${commons-csv.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
