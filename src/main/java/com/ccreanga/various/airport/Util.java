@@ -6,8 +6,6 @@ import java.time.format.DateTimeFormatter;
 public class Util {
 
     public static String time() {
-        LocalDateTime date = LocalDateTime.now();
-        String text = date.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        return text;
+        return  LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
 }

@@ -6,13 +6,13 @@ import java.util.concurrent.Semaphore;
 
 public class AirstripManager {
 
-    AirStrip largeAirstrip = new AirStrip(false);
-    AirStrip regularAirstrip = new AirStrip(true);
-    Semaphore large = new Semaphore(1);
-    Semaphore regular = new Semaphore(1);
+    private AirStrip largeAirstrip = new AirStrip(false);
+    private AirStrip regularAirstrip = new AirStrip(true);
+    private Semaphore large = new Semaphore(1);
+    private Semaphore regular = new Semaphore(1);
 
 
-    Map<AirStrip, Semaphore> locks = new HashMap();
+    private Map<AirStrip, Semaphore> locks = new HashMap<>();
 
     {
         locks.put(regularAirstrip, regular);

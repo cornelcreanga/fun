@@ -2,7 +2,7 @@ package com.ccreanga.various.airport;
 
 public class AirStrip {
 
-    boolean regular;
+    private boolean regular;
 
     public AirStrip(boolean regular) {
         this.regular = regular;

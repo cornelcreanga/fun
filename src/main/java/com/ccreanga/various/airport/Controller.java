@@ -12,10 +12,12 @@ public class Controller implements Runnable {
     private BlockingQueue<AirplaneMessage> airplaneToController;
 
     private AirstripManager airstripManager;
-    private ReentrantLock landedLock = new ReentrantLock();
     private boolean stop;
 
-    public Controller(String name, WaitingPlanesManager waitingPlanesManager, BlockingQueue<AirplaneMessage> airplaneToController, AirstripManager airstripManager) {
+    public Controller(String name,
+                      WaitingPlanesManager waitingPlanesManager,
+                      BlockingQueue<AirplaneMessage> airplaneToController,
+                      AirstripManager airstripManager) {
         this.name = name;
         this.waitingPlanesManager = waitingPlanesManager;
         this.airplaneToController = airplaneToController;
@@ -29,9 +31,7 @@ public class Controller implements Runnable {
             if ((airplaneMessage instanceof ReadyToLandMessage) || (airplaneMessage instanceof MaydayMessage)) {
                 boolean mayday = airplaneMessage instanceof MaydayMessage;
 
-                Airplane airplane = mayday?
-                        ((MaydayMessage) airplaneMessage).getAirplane():
-                        ((ReadyToLandMessage) airplaneMessage).getAirplane();
+                Airplane airplane = airplaneMessage.getAirplane();
 
                 System.out.println(Util.time() + ", " + airplane.getName() + " -> " + name +
                         (mayday?", MaydayMessage":", ReadyToLandMessage"));
@@ -48,7 +48,7 @@ public class Controller implements Runnable {
             } else if (airplaneMessage instanceof LandedMessage) {
 
                 AirStrip airStrip = ((LandedMessage) airplaneMessage).getAirstrip();
-                Airplane landedAirplane = ((LandedMessage) airplaneMessage).getAirplane();
+                Airplane landedAirplane = airplaneMessage.getAirplane();
                 System.out.println(Util.time() + ", " + landedAirplane.getName() + " -> " + name + ", LandedMessage");
 
 
@@ -80,7 +80,7 @@ public class Controller implements Runnable {
         }
     }
 
-    public synchronized void stop() {
+    public synchronized void stopController() {
         stop = true;
     }
 

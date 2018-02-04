@@ -30,7 +30,7 @@ public class Airplane implements Runnable, Comparable {
         this.delay = delay;
         this.waitingPlanesManager = waitingPlanesManager;
         this.airplaneToControllers = airplaneToControllers;
-        fromController = new LinkedBlockingQueue<>(100);
+        fromController = new LinkedBlockingQueue<>();
     }
 
     @Override
@@ -45,10 +45,10 @@ public class Airplane implements Runnable, Comparable {
         while (!done) {
             ControllerMessage message = fromController.poll();
             if (message instanceof CircleMessage) {
-                Controller controller = ((CircleMessage) message).getController();
+                Controller controller = message.getController();
                 System.out.println(Util.time() + ", " + controller.getName() + " -> " + name + ", CircleMessage");
             } else if (message instanceof StartLandingMessage) {
-                Controller controller = ((StartLandingMessage) message).getController();
+                Controller controller = message.getController();
                 AirStrip airStrip = ((StartLandingMessage) message).getAirStrip();
                 try {
                     System.out.println(Util.time() + ", " + controller.getName() + " -> " + name + ", StartLandingMessage on " + airStrip);

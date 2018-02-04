@@ -63,12 +63,8 @@ public class Airport {
             thread.join();
         }
 
-
-        long time1 = System.currentTimeMillis();
-        long time2 = System.currentTimeMillis();
-
-        c1.stop();
-        c2.stop();
+        c1.stopController();
+        c2.stopController();
     }
 
 }
