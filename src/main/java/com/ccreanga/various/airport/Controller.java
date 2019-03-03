@@ -12,7 +12,7 @@ public class Controller implements Runnable {
     private BlockingQueue<AirplaneMessage> airplaneToController;
 
     private AirstripManager airstripManager;
-    private boolean stop;
+    private volatile boolean stop;
 
     public Controller(String name,
                       WaitingPlanesManager waitingPlanesManager,
@@ -80,7 +80,7 @@ public class Controller implements Runnable {
         }
     }
 
-    public synchronized void stopController() {
+    public void stopController() {
         stop = true;
     }
 

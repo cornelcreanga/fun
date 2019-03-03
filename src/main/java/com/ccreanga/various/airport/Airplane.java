@@ -16,7 +16,7 @@ public class Airplane implements Runnable, Comparable {
     private WaitingPlanesManager waitingPlanesManager;
     private BlockingQueue<AirplaneMessage> airplaneToControllers;
     private BlockingQueue<ControllerMessage> fromController;
-    private volatile boolean done = false;
+    private boolean done = false;
     private long initiateLandingTimestamp;
 
     public boolean isEmergency() {
@@ -43,7 +43,10 @@ public class Airplane implements Runnable, Comparable {
         } catch (InterruptedException ignored) {}
 
         while (!done) {
-            ControllerMessage message = fromController.poll();
+            ControllerMessage message = null;
+            try {
+                message = fromController.take();
+            } catch (InterruptedException e) { /**ignored*/}
             if (message instanceof CircleMessage) {
                 Controller controller = message.getController();
                 System.out.println(Util.time() + ", " + controller.getName() + " -> " + name + ", CircleMessage");
