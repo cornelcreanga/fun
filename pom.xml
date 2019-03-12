@@ -15,10 +15,23 @@
         <maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
         <guava.version>27.0.1-jre</guava.version>
         <commons-csv.version>1.6</commons-csv.version>
+      <jmh.version>1.21</jmh.version>
     </properties>
 
     <dependencies>
-        <dependency>
+      <dependency>
+        <groupId>org.openjdk.jmh</groupId>
+        <artifactId>jmh-core</artifactId>
+        <version>${jmh.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.openjdk.jmh</groupId>
+        <artifactId>jmh-generator-annprocess</artifactId>
+        <version>${jmh.version}</version>
+        <scope>provided</scope>
+      </dependency>
+
+      <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>${commons-csv.version}</version>
@@ -47,6 +60,7 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+
 
         </plugins>
     </build>

@@ -39,11 +39,10 @@ public class BinaryTree {
         //https://www.geeksforgeeks.org/level-order-tree-traversal/
     }
 
-    private Node _commonAncestor(Node parent,Node first, Node second){
+    private Node _commonAncestor(Node parent,Object first, Object second){
         if (parent==null)
             return null;
-        System.out.println(parent.getData());
-        if ((parent==first) || (parent==second))
+        if (parent.getData().equals(first) || (parent.getData().equals(second)))
             return parent;
         Node left = _commonAncestor(parent.left(),first,second);
         Node right = _commonAncestor(parent.right(),first,second);
@@ -55,20 +54,23 @@ public class BinaryTree {
 
     }
 
-    public Node commonAncestor(Node first, Node second){
+    public Node commonAncestor(Object first, Object second){
         return _commonAncestor(root,first,second);
     }
 
-    public boolean _find(Node parent,Object value,ArrayList<Node> currentPath){
+    private boolean _find(Node parent,Object value,ArrayList<Node> currentPath){
         if (parent==null)
             return false;
         currentPath.add(parent);
         if (parent.getData().equals(value))
             return true;
         boolean left = _find(parent.left(),value,currentPath);
-        boolean right = _find(parent.right(),value,currentPath);
-        if ((left) || (right))
+        if (left)
             return true;
+        boolean right = _find(parent.right(),value,currentPath);
+        if (right)
+            return true;
+        //not found
         currentPath.remove(parent);
         return false;
 

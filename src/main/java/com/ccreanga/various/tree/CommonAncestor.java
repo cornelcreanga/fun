@@ -23,9 +23,8 @@ public class CommonAncestor {
 
 
     private static void printList(List<Node> l){
-        for (int i = 0; i < l.size(); i++) {
-            Object o = l.get(i);
-            System.out.println(((Node) o).getData());
+        for (Node o : l) {
+            System.out.print(o.getData()+",");
         }
     }
 
