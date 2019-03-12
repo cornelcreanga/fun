@@ -28,10 +28,10 @@ public class Convert {
     }
 
     public static String toRoman(int no){
-        StringBuilder sb = new StringBuilder(16);
         String cached = symbols.get(no);
         if (cached!=null)
             return cached;
+        StringBuilder sb = new StringBuilder(16);
         Set<Integer> keys = symbols.keySet();
         for (Integer k : keys) {
             if (no==k){
