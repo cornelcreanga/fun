@@ -15,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 public class BenchmarkMemoryMapped {
 
+    public static final int MAP_SIZE = 100_000;
+    public static final int ITERATIONS = 1_000_000;
     static ConcurrentMap<String,Long> mapDbMemoryMapped;
     static ConcurrentMap<String,Long> mapDbNonMemoryMapped;
     static ConcurrentMap<String,Long> jdkMap =new ConcurrentHashMap<>();
@@ -27,14 +29,14 @@ public class BenchmarkMemoryMapped {
         mapDbMemoryMapped = db
                 .hashMap("map", Serializer.STRING, Serializer.LONG)
                 .createOrOpen();
-        for (int i = 0; i < 100_000; i++) {
+        for (int i = 0; i < MAP_SIZE; i++) {
             mapDbMemoryMapped.put("item"+i, (long)i);
         }
         db.close();
     }
 
     public static void fillMemoryMap(){
-        for (int i = 0; i < 100000; i++) {
+        for (int i = 0; i < MAP_SIZE; i++) {
             jdkMap.put("item"+i, (long)i);
         }
     }
@@ -45,8 +47,8 @@ public class BenchmarkMemoryMapped {
     @Warmup(iterations = 2)
     @Measurement(iterations = 5)
     public static void randomAccessMemory(){
-        for (int i = 0; i < 1_000_000; i++) {
-            jdkMap.get("item"+(long)(Math.random()*100000));
+        for (int i = 0; i < ITERATIONS; i++) {
+            jdkMap.get("item"+(long)(Math.random()*MAP_SIZE));
         }
     }
 
@@ -63,8 +65,8 @@ public class BenchmarkMemoryMapped {
         mapDbMemoryMapped = db
                 .hashMap("map", Serializer.STRING, Serializer.LONG)
                 .createOrOpen();
-        for (int i = 0; i < 1_000_000; i++) {
-            mapDbMemoryMapped.get("item"+(long)(Math.random()*100000));
+        for (int i = 0; i < ITERATIONS; i++) {
+            mapDbMemoryMapped.get("item"+(long)(Math.random()*MAP_SIZE));
         }
         db.close();
     }
@@ -78,11 +80,11 @@ public class BenchmarkMemoryMapped {
 //        DB db = DBMaker
 //                .fileDB("/tmp/file.db")
 //                .make();
-//        mapDbMemoryMapped = db
+//        mapDbNonMemoryMapped = db
 //                .hashMap("map", Serializer.STRING, Serializer.LONG)
 //                .createOrOpen();
-//        for (int i = 0; i < 100_000; i++) {
-//            mapDbMemoryMapped.get("item"+(long)(Math.random()*100000));
+//        for (int i = 0; i < ITERATIONS; i++) {
+//            mapDbNonMemoryMapped.get("item"+(long)(Math.random()*MAP_SIZE));
 //        }
 //        db.close();
 //    }
