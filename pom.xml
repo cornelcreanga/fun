@@ -16,9 +16,19 @@
         <guava.version>27.0.1-jre</guava.version>
         <commons-csv.version>1.6</commons-csv.version>
       <jmh.version>1.21</jmh.version>
+        <mapdb.version>3.0.7</mapdb.version>
     </properties>
 
     <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.mapdb/mapdb -->
+        <dependency>
+            <groupId>org.mapdb</groupId>
+            <artifactId>mapdb</artifactId>
+            <version>${mapdb.version}</version>
+        </dependency>
+
+
       <dependency>
         <groupId>org.openjdk.jmh</groupId>
         <artifactId>jmh-core</artifactId>
