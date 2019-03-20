@@ -16,11 +16,9 @@ import java.util.concurrent.TimeUnit;
 
 public class MemoryBenchmark {
 
-    private static int count = 10*1024*1024;
+    private static int count = 50*1024*1024;
     private static byte[] memoryArray = null;
-
-
-
+    static long counter = 0;
 
     private static void createByteArray() {
         memoryArray = new byte[count];
@@ -32,8 +30,6 @@ public class MemoryBenchmark {
         createByteArray();
     }
 
-
-
     @org.openjdk.jmh.annotations.Benchmark
     @BenchmarkMode(Mode.AverageTime)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
@@ -41,7 +37,6 @@ public class MemoryBenchmark {
     @Warmup(iterations = 2)
     @Measurement(iterations = 5)
     public static void testReadMemory(){
-        long counter = 0;
         for (byte b : memoryArray) {
             counter += b;
         }
@@ -54,6 +49,7 @@ public class MemoryBenchmark {
                 .build();
 
         new Runner(opt).run();
+        System.out.println(counter);
     }
 
 }

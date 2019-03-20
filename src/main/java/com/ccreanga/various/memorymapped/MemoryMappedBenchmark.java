@@ -17,9 +17,10 @@ public class MemoryMappedBenchmark {
     private static int count = 50*1024*1024;
     private static File file;
     private static MappedByteBuffer out;
+    static long counter = 0;
 
     private static void createFile() {
-
+        System.out.println("create file");
         try{
             file = File.createTempFile("testmemorymapped","");
             file.deleteOnExit();
@@ -50,11 +51,10 @@ public class MemoryMappedBenchmark {
     @Fork(value = 1)
     @Warmup(iterations = 2)
     @Measurement(iterations = 10)
-    public static void testReadMemoryMapped() throws IOException {
-        long counter = 0;
-            for(int i=0;i<count;i++){
-                counter+=out.get();
-            }
+    public static void testReadMemoryMapped(){
+        for (int i = 0; i < count; i++) {
+            counter += out.get(i);
+        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -64,6 +64,7 @@ public class MemoryMappedBenchmark {
                 .build();
 
         new Runner(opt).run();
+        System.out.println(counter);
     }
 
 }
