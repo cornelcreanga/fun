@@ -41,7 +41,7 @@ public class BenchmarkMemoryMapped {
         }
     }
 
-    //    @Benchmark
+    //    @MemoryBenchmark
 //    @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
 //    @Fork(value = 1)
 //    @Warmup(iterations = 2)
@@ -52,7 +52,7 @@ public class BenchmarkMemoryMapped {
         }
     }
 
-    //    @Benchmark
+    //    @MemoryBenchmark
 //    @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
 //    @Fork(value = 1)
 //    @Warmup(iterations = 2)
@@ -92,12 +92,12 @@ public class BenchmarkMemoryMapped {
 
     /**
      * osx/job
-     * Benchmark                                       Mode  Cnt     Score    Error  Units
+     * MemoryBenchmark                                       Mode  Cnt     Score    Error  Units
      * BenchmarkMemoryMapped.randomAccessMemory        avgt    5    69.033 ±  5.212  ms/op
      * BenchmarkMemoryMapped.randomAccessMemoryMapped  avgt    5  1800.507 ± 30.767  ms/op
      * <p>
      * linux/home
-     * Benchmark                                       Mode  Cnt     Score    Error  Units
+     * MemoryBenchmark                                       Mode  Cnt     Score    Error  Units
      * BenchmarkMemoryMapped.randomAccessMemory        avgt    5    60.496 ±  0.439  ms/op
      * BenchmarkMemoryMapped.randomAccessMemoryMapped  avgt    5  1257.855 ± 32.354  ms/op
      * BenchmarkMemoryMapped.randomAccessNonMemoryMapped  avgt    5  30739.443 ± 408.829  ms/op
