@@ -38,7 +38,6 @@ public class Server {
             .build();
 
 
-
     public static void main(String[] args) throws IOException {
 
 
@@ -56,9 +55,20 @@ public class Server {
         server.start();
     }
 
+    public static Integer extractId(String s, char separator) {
+        int i1 = s.indexOf(separator);
+        int i2 = s.indexOf(separator, i1 + 1);
+        return Integer.parseInt(s.substring(i1 + 1, i2));
+    }
+
+    public static String paramValue(String query, String name) {
+        int i1 = query.indexOf(name);
+        return query.substring(i1 + name.length() + 1);
+    }
+
     static class MyHandler implements HttpHandler {
         public void handle(HttpExchange httpExchange) throws IOException {
-            System.out.println(httpExchange.getRequestMethod()+" "+httpExchange.getRequestURI().getPath());
+            System.out.println(httpExchange.getRequestMethod() + " " + httpExchange.getRequestURI().getPath());
 
             String path = httpExchange.getRequestURI().getPath();
             String method = httpExchange.getRequestMethod();
@@ -110,7 +120,7 @@ public class Server {
                     os.write(response.getBytes());
                     os.close();
                 }
-            }else if  (method.equals("POST")) {
+            } else if (method.equals("POST")) {
 
                 if (path.contains("stake")) {
                     int betOfferId = extractId(path, '/');
@@ -137,7 +147,7 @@ public class Server {
                                 try {
                                     if (queue == null) {
                                         queue = new PriorityBlockingQueue<>(128, Comparator.comparingInt(Stake::getStake).reversed());
-                                        highStakes.put(betOfferId,queue);
+                                        highStakes.put(betOfferId, queue);
                                     }
                                 } finally {
                                     stakeLock.unlock();
@@ -171,17 +181,6 @@ public class Server {
              4 Example: http://localhost:8001/888/highstakes -> 1234=4500,57453=1337
              */
         }
-    }
-
-    public static Integer extractId(String s, char separator) {
-        int i1 = s.indexOf(separator);
-        int i2 = s.indexOf(separator, i1 + 1);
-        return Integer.parseInt(s.substring(i1 + 1, i2));
-    }
-
-    public static String paramValue(String query, String name) {
-        int i1 = query.indexOf(name);
-        return query.substring(i1 + name.length() + 1);
     }
 
 }

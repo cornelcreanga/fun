@@ -1,9 +1,10 @@
 package com.ccreanga.various.romannumber;
 
 
+import sun.misc.Unsafe;
+
 import java.lang.reflect.Field;
 import java.util.LinkedList;
-import sun.misc.Unsafe;
 
 public class Test {
 
@@ -46,7 +47,7 @@ public class Test {
                     if (i2 > last)
                         System.out.print(", +" + Long.toHexString(i2 - last));
                     else
-                        System.out.print(", -" + Long.toHexString( last - i2));
+                        System.out.print(", -" + Long.toHexString(last - i2));
                     last = i2;
                 }
                 break;

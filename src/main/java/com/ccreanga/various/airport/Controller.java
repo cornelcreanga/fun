@@ -3,7 +3,6 @@ package com.ccreanga.various.airport;
 import com.ccreanga.various.airport.messages.*;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.locks.ReentrantLock;
 
 public class Controller implements Runnable {
 
@@ -34,7 +33,7 @@ public class Controller implements Runnable {
                 Airplane airplane = airplaneMessage.getAirplane();
 
                 System.out.println(Util.time() + ", " + airplane.getName() + " -> " + name +
-                        (mayday?", MaydayMessage":", ReadyToLandMessage"));
+                        (mayday ? ", MaydayMessage" : ", ReadyToLandMessage"));
                 AirStrip airStrip = airstripManager.acquire(airplane);
 
                 if (airStrip == null) {

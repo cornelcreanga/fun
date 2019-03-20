@@ -17,21 +17,21 @@ public class Node {
         this.right = right;
     }
 
-    public Node setLeft(Node node){
+    public Node setLeft(Node node) {
         left = node;
         return this;
     }
 
-    public Node left(){
+    public Node left() {
         return left;
     }
 
-    public Node right(){
+    public Node right() {
         return right;
     }
 
 
-    public Node setRight(Node node){
+    public Node setRight(Node node) {
         right = node;
         return this;
     }

@@ -19,7 +19,7 @@ public class WaitingPlanesManager {
                 regularEmergency.add(airplane);
             else
                 regular.add(airplane);
-        }else {
+        } else {
             if (airplane.isEmergency())
                 largeEmergency.add(airplane);
             else
@@ -34,7 +34,7 @@ public class WaitingPlanesManager {
                 regularEmergency.remove(airplane);
             else
                 regular.remove(airplane);
-        }else {
+        } else {
             if (airplane.isEmergency())
                 largeEmergency.remove(airplane);
             else

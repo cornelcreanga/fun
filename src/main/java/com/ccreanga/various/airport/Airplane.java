@@ -19,10 +19,6 @@ public class Airplane implements Runnable, Comparable {
     private boolean done = false;
     private long initiateLandingTimestamp;
 
-    public boolean isEmergency() {
-        return emergency;
-    }
-
     public Airplane(String name, boolean regular, boolean emergency, int delay, WaitingPlanesManager waitingPlanesManager, BlockingQueue<AirplaneMessage> airplaneToControllers) {
         this.name = name;
         this.regular = regular;
@@ -33,14 +29,19 @@ public class Airplane implements Runnable, Comparable {
         fromController = new LinkedBlockingQueue<>();
     }
 
+    public boolean isEmergency() {
+        return emergency;
+    }
+
     @Override
     public void run() {
         try {
             Thread.sleep(delay * 1000);
             initiateLandingTimestamp = System.currentTimeMillis();
             waitingPlanesManager.addAirplane(this);
-            airplaneToControllers.put(emergency?new MaydayMessage(this):new ReadyToLandMessage(this));
-        } catch (InterruptedException ignored) {}
+            airplaneToControllers.put(emergency ? new MaydayMessage(this) : new ReadyToLandMessage(this));
+        } catch (InterruptedException ignored) {
+        }
 
         while (!done) {
             ControllerMessage message = null;
@@ -58,7 +59,8 @@ public class Airplane implements Runnable, Comparable {
                     Thread.sleep(regular ? REGULAR_LANDING_TIME : LARGE_LANDING_TIME);
                     done = true;
                     airplaneToControllers.put(new LandedMessage(this, airStrip));
-                } catch (InterruptedException ignore) {}
+                } catch (InterruptedException ignore) {
+                }
             }
         }
     }

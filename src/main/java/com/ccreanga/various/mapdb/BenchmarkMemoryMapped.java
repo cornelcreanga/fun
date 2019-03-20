@@ -17,11 +17,11 @@ public class BenchmarkMemoryMapped {
 
     public static final int MAP_SIZE = 100_000;
     public static final int ITERATIONS = 1_000_000;
-    static ConcurrentMap<String,Long> mapDbMemoryMapped;
-    static ConcurrentMap<String,Long> mapDbNonMemoryMapped;
-    static ConcurrentMap<String,Long> jdkMap =new ConcurrentHashMap<>();
+    static ConcurrentMap<String, Long> mapDbMemoryMapped;
+    static ConcurrentMap<String, Long> mapDbNonMemoryMapped;
+    static ConcurrentMap<String, Long> jdkMap = new ConcurrentHashMap<>();
 
-    public static void fillMemoryMappedMap(){
+    public static void fillMemoryMappedMap() {
         DB db = DBMaker
                 .fileDB("/tmp/file.db")
                 .fileMmapEnable()
@@ -30,34 +30,34 @@ public class BenchmarkMemoryMapped {
                 .hashMap("map", Serializer.STRING, Serializer.LONG)
                 .createOrOpen();
         for (int i = 0; i < MAP_SIZE; i++) {
-            mapDbMemoryMapped.put("item"+i, (long)i);
+            mapDbMemoryMapped.put("item" + i, (long) i);
         }
         db.close();
     }
 
-    public static void fillMemoryMap(){
+    public static void fillMemoryMap() {
         for (int i = 0; i < MAP_SIZE; i++) {
-            jdkMap.put("item"+i, (long)i);
+            jdkMap.put("item" + i, (long) i);
         }
     }
 
-//    @Benchmark
+    //    @Benchmark
 //    @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
 //    @Fork(value = 1)
 //    @Warmup(iterations = 2)
 //    @Measurement(iterations = 5)
-    public static void randomAccessMemory(){
+    public static void randomAccessMemory() {
         for (int i = 0; i < ITERATIONS; i++) {
-            jdkMap.get("item"+(long)(Math.random()*MAP_SIZE));
+            jdkMap.get("item" + (long) (Math.random() * MAP_SIZE));
         }
     }
 
-//    @Benchmark
+    //    @Benchmark
 //    @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
 //    @Fork(value = 1)
 //    @Warmup(iterations = 2)
 //    @Measurement(iterations = 5)
-    public static void randomAccessMemoryMapped(){
+    public static void randomAccessMemoryMapped() {
         DB db = DBMaker
                 .fileDB("/tmp/file.db")
                 .fileMmapEnable()
@@ -66,17 +66,18 @@ public class BenchmarkMemoryMapped {
                 .hashMap("map", Serializer.STRING, Serializer.LONG)
                 .createOrOpen();
         for (int i = 0; i < ITERATIONS; i++) {
-            mapDbMemoryMapped.get("item"+(long)(Math.random()*MAP_SIZE));
+            mapDbMemoryMapped.get("item" + (long) (Math.random() * MAP_SIZE));
         }
         db.close();
     }
 
     @Benchmark
-    @BenchmarkMode(Mode.AverageTime) @OutputTimeUnit(TimeUnit.MILLISECONDS)
+    @BenchmarkMode(Mode.AverageTime)
+    @OutputTimeUnit(TimeUnit.MILLISECONDS)
     @Fork(value = 1)
     @Warmup(iterations = 2)
     @Measurement(iterations = 5)
-    public static void randomAccessNonMemoryMapped(){
+    public static void randomAccessNonMemoryMapped() {
         DB db = DBMaker
                 .fileDB("/tmp/file.db")
                 .make();
@@ -84,22 +85,22 @@ public class BenchmarkMemoryMapped {
                 .hashMap("map", Serializer.STRING, Serializer.LONG)
                 .createOrOpen();
         for (int i = 0; i < ITERATIONS; i++) {
-            mapDbNonMemoryMapped.get("item"+(long)(Math.random()*MAP_SIZE));
+            mapDbNonMemoryMapped.get("item" + (long) (Math.random() * MAP_SIZE));
         }
         db.close();
     }
 
     /**
      * osx/job
-     Benchmark                                       Mode  Cnt     Score    Error  Units
-     BenchmarkMemoryMapped.randomAccessMemory        avgt    5    69.033 ±  5.212  ms/op
-     BenchmarkMemoryMapped.randomAccessMemoryMapped  avgt    5  1800.507 ± 30.767  ms/op
-
-     linux/home
-     Benchmark                                       Mode  Cnt     Score    Error  Units
-     BenchmarkMemoryMapped.randomAccessMemory        avgt    5    60.496 ±  0.439  ms/op
-     BenchmarkMemoryMapped.randomAccessMemoryMapped  avgt    5  1257.855 ± 32.354  ms/op
-     BenchmarkMemoryMapped.randomAccessNonMemoryMapped  avgt    5  30739.443 ± 408.829  ms/op
+     * Benchmark                                       Mode  Cnt     Score    Error  Units
+     * BenchmarkMemoryMapped.randomAccessMemory        avgt    5    69.033 ±  5.212  ms/op
+     * BenchmarkMemoryMapped.randomAccessMemoryMapped  avgt    5  1800.507 ± 30.767  ms/op
+     * <p>
+     * linux/home
+     * Benchmark                                       Mode  Cnt     Score    Error  Units
+     * BenchmarkMemoryMapped.randomAccessMemory        avgt    5    60.496 ±  0.439  ms/op
+     * BenchmarkMemoryMapped.randomAccessMemoryMapped  avgt    5  1257.855 ± 32.354  ms/op
+     * BenchmarkMemoryMapped.randomAccessNonMemoryMapped  avgt    5  30739.443 ± 408.829  ms/op
      */
 
     public static void main(String[] args) throws RunnerException {
