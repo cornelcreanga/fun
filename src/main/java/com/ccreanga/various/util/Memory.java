@@ -1,12 +1,12 @@
-package com.ccreanga.various.romannumber;
-
+package com.ccreanga.various.util;
 
 import sun.misc.Unsafe;
 
 import java.lang.reflect.Field;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Test {
+public class Memory {
 
     static final Unsafe unsafe = getUnsafe();
     static final boolean is64bit = true;
@@ -21,40 +21,34 @@ public class Test {
         }
     }
 
-    public static void main(String[] args) {
-        LinkedList<Integer> list = new LinkedList<>();
-        for (int i = 0; i < 1000; i++) {
-            list.add(i);
-        }
-        for (int i = 0; i < 1000; i++) {
-            printAddresses(list.get(i));
-        }
-
-    }
-
-    public static void printAddresses(Object... objects) {
+    public static List<String> getAddresses(Object... objects) {
         long last = 0;
         int offset = unsafe.arrayBaseOffset(objects.getClass());
         int scale = unsafe.arrayIndexScale(objects.getClass());
+        ArrayList<String> list = new ArrayList<>(objects.length*16);
+        String address = "";
         switch (scale) {
             case 4:
                 long factor = is64bit ? 8 : 1;
                 final long i1 = (unsafe.getInt(objects, offset) & 0xFFFFFFFFL) * factor;
-                System.out.print(Long.toHexString(i1));
+                address+=Long.toHexString(i1);
+                list.add(address);
                 last = i1;
                 for (int i = 1; i < objects.length; i++) {
                     final long i2 = (unsafe.getInt(objects, offset + i * 4) & 0xFFFFFFFFL) * factor;
                     if (i2 > last)
-                        System.out.print(", +" + Long.toHexString(i2 - last));
+                        address+=(", +" + Long.toHexString(i2 - last));
                     else
-                        System.out.print(", -" + Long.toHexString(last - i2));
+                        address+=(", -" + Long.toHexString(last - i2));
                     last = i2;
+                    list.add(address);
                 }
                 break;
             case 8:
-                throw new AssertionError("Not supported");
+                throw new UnsupportedOperationException("array scale" + scale +" is not supported");
         }
-        System.out.println();
+
+        return list;
     }
 
 }
