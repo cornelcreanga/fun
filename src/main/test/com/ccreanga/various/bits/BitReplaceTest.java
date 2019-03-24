@@ -3,9 +3,8 @@ package com.ccreanga.various.bits;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class BitReplaceTest {
+
     @Test
     public void replace() throws Exception {
         Assert.assertEquals(BitReplace.replace(9, 3, (byte) 3), 13);

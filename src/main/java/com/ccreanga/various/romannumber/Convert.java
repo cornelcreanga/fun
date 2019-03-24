@@ -29,9 +29,10 @@ public class Convert {
     }
 
     public static String toRoman(int no) {
-        String cached = symbols.get(no);
-        if (cached != null)
-            return cached;
+        String existing = symbols.get(no);
+        if (existing != null) {
+            return existing;
+        }
         StringBuilder sb = new StringBuilder(16);
         Set<Integer> keys = symbols.keySet();
         for (Integer k : keys) {
@@ -57,8 +58,9 @@ public class Convert {
 
     private static String repeatChars(String c, int count) {
         StringBuilder stringBuilder = new StringBuilder(c.length() * count);
-        for (int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++) {
             stringBuilder.append(c);
+        }
         return stringBuilder.toString();
     }
 

@@ -15,7 +15,9 @@ public class Huffman {
 
         // tabulate frequency counts
         int[] freq = new int[R];
-        for (char anInput : input) freq[anInput]++;
+        for (char anInput : input) {
+            freq[anInput]++;
+        }
 
         // build Huffman trie
         Node root = buildTrie(freq);
@@ -26,7 +28,6 @@ public class Huffman {
         buildCode(st, root, "");
 
         int len = 0;
-
 
         BitSet bitSet = new BitSet(s.length() + s.length() / 2);
         int counter = 0;
@@ -46,14 +47,19 @@ public class Huffman {
 
         // initialze priority queue with singleton trees
         MinPQ<Node> pq = new MinPQ<Node>();
-        for (char i = 0; i < R; i++)
-            if (freq[i] > 0)
+        for (char i = 0; i < R; i++) {
+            if (freq[i] > 0) {
                 pq.insert(new Node(i, freq[i], null, null));
+            }
+        }
 
         // special case in case there is only one character with a nonzero frequency
         if (pq.size() == 1) {
-            if (freq['\0'] == 0) pq.insert(new Node('\0', 0, null, null));
-            else pq.insert(new Node('\1', 0, null, null));
+            if (freq['\0'] == 0) {
+                pq.insert(new Node('\0', 0, null, null));
+            } else {
+                pq.insert(new Node('\1', 0, null, null));
+            }
         }
 
         // merge two smallest trees
@@ -97,8 +103,11 @@ public class Huffman {
             Node x = huffmanRoot;
             while (!x.isLeaf()) {
                 boolean bit = bitSet.get(counter++);
-                if (bit) x = x.right;
-                else x = x.left;
+                if (bit) {
+                    x = x.right;
+                } else {
+                    x = x.left;
+                }
             }
         }
     }
@@ -114,6 +123,7 @@ public class Huffman {
 
     // Huffman trie node
     private static class Node implements Comparable<Node> {
+
         private final char ch;
         private final int freq;
         private final Node left, right;

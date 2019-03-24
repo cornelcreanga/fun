@@ -1,7 +1,12 @@
 package com.ccreanga.various.airport;
 
-import com.ccreanga.various.airport.messages.*;
-
+import com.ccreanga.various.airport.messages.AirplaneMessage;
+import com.ccreanga.various.airport.messages.CircleMessage;
+import com.ccreanga.various.airport.messages.ControllerMessage;
+import com.ccreanga.various.airport.messages.LandedMessage;
+import com.ccreanga.various.airport.messages.MaydayMessage;
+import com.ccreanga.various.airport.messages.ReadyToLandMessage;
+import com.ccreanga.various.airport.messages.StartLandingMessage;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -19,7 +24,8 @@ public class Airplane implements Runnable, Comparable {
     private boolean done = false;
     private long initiateLandingTimestamp;
 
-    public Airplane(String name, boolean regular, boolean emergency, int delay, WaitingPlanesManager waitingPlanesManager, BlockingQueue<AirplaneMessage> airplaneToControllers) {
+    public Airplane(String name, boolean regular, boolean emergency, int delay, WaitingPlanesManager waitingPlanesManager,
+        BlockingQueue<AirplaneMessage> airplaneToControllers) {
         this.name = name;
         this.regular = regular;
         this.emergency = emergency;
@@ -89,10 +95,10 @@ public class Airplane implements Runnable, Comparable {
     @Override
     public String toString() {
         return "Airplane{" +
-                "name='" + name + '\'' +
-                ", regular=" + regular +
-                ", emergency=" + emergency +
-                ", delay=" + delay +
-                '}';
+            "name='" + name + '\'' +
+            ", regular=" + regular +
+            ", emergency=" + emergency +
+            ", delay=" + delay +
+            '}';
     }
 }

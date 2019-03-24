@@ -15,30 +15,34 @@ public class WaitingPlanesManager {
 
     public void addAirplane(Airplane airplane) {
         if (airplane.isRegular()) {
-            if (airplane.isEmergency())
+            if (airplane.isEmergency()) {
                 regularEmergency.add(airplane);
-            else
+            } else {
                 regular.add(airplane);
+            }
         } else {
-            if (airplane.isEmergency())
+            if (airplane.isEmergency()) {
                 largeEmergency.add(airplane);
-            else
+            } else {
                 large.add(airplane);
+            }
         }
 
     }
 
     public void removeAirplane(Airplane airplane) {
         if (airplane.isRegular()) {
-            if (airplane.isEmergency())
+            if (airplane.isEmergency()) {
                 regularEmergency.remove(airplane);
-            else
+            } else {
                 regular.remove(airplane);
+            }
         } else {
-            if (airplane.isEmergency())
+            if (airplane.isEmergency()) {
                 largeEmergency.remove(airplane);
-            else
+            } else {
                 large.remove(airplane);
+            }
         }
     }
 

@@ -1,7 +1,11 @@
 package com.ccreanga.various.airport;
 
-import com.ccreanga.various.airport.messages.*;
-
+import com.ccreanga.various.airport.messages.AirplaneMessage;
+import com.ccreanga.various.airport.messages.CircleMessage;
+import com.ccreanga.various.airport.messages.LandedMessage;
+import com.ccreanga.various.airport.messages.MaydayMessage;
+import com.ccreanga.various.airport.messages.ReadyToLandMessage;
+import com.ccreanga.various.airport.messages.StartLandingMessage;
 import java.util.concurrent.BlockingQueue;
 
 public class Controller implements Runnable {
@@ -14,9 +18,9 @@ public class Controller implements Runnable {
     private volatile boolean stop;
 
     public Controller(String name,
-                      WaitingPlanesManager waitingPlanesManager,
-                      BlockingQueue<AirplaneMessage> airplaneToController,
-                      AirstripManager airstripManager) {
+        WaitingPlanesManager waitingPlanesManager,
+        BlockingQueue<AirplaneMessage> airplaneToController,
+        AirstripManager airstripManager) {
         this.name = name;
         this.waitingPlanesManager = waitingPlanesManager;
         this.airplaneToController = airplaneToController;
@@ -33,7 +37,7 @@ public class Controller implements Runnable {
                 Airplane airplane = airplaneMessage.getAirplane();
 
                 System.out.println(Util.time() + ", " + airplane.getName() + " -> " + name +
-                        (mayday ? ", MaydayMessage" : ", ReadyToLandMessage"));
+                    (mayday ? ", MaydayMessage" : ", ReadyToLandMessage"));
                 AirStrip airStrip = airstripManager.acquire(airplane);
 
                 if (airStrip == null) {
@@ -50,24 +54,29 @@ public class Controller implements Runnable {
                 Airplane landedAirplane = airplaneMessage.getAirplane();
                 System.out.println(Util.time() + ", " + landedAirplane.getName() + " -> " + name + ", LandedMessage");
 
-
                 Airplane airplane = null;
                 if (airStrip.isRegular()) {
                     airplane = waitingPlanesManager.pollEmergencyRegularAirplane();
-                    if (airplane == null)
+                    if (airplane == null) {
                         airplane = waitingPlanesManager.pollRegularAirplane();
-                    if (airplane != null)
+                    }
+                    if (airplane != null) {
                         airplane.putMessage(new StartLandingMessage(this, airStrip));
+                    }
                 } else if (airStrip.isLarge()) {
                     airplane = waitingPlanesManager.pollEmergencyLargeAirplane();
-                    if (airplane == null)
+                    if (airplane == null) {
                         airplane = waitingPlanesManager.pollEmergencyRegularAirplane();
-                    if (airplane == null)
+                    }
+                    if (airplane == null) {
                         airplane = waitingPlanesManager.pollLargeAirplane();
-                    if (airplane == null)
+                    }
+                    if (airplane == null) {
                         airplane = waitingPlanesManager.pollRegularAirplane();
-                    if (airplane != null)
+                    }
+                    if (airplane != null) {
                         airplane.putMessage(new StartLandingMessage(this, airStrip));
+                    }
                 }
 
                 if (airplane == null) {

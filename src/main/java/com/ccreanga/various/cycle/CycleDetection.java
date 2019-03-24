@@ -65,7 +65,6 @@ public class CycleDetection {
         long t2 = System.currentTimeMillis();
         System.out.println(t2 - t1);
 
-
         t1 = System.currentTimeMillis();
         for (int i = 0; i < 10000; i++) {
             tortoiseAndHare(array);

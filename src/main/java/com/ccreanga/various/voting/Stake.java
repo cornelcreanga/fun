@@ -1,6 +1,7 @@
 package com.ccreanga.various.voting;
 
 public class Stake {
+
     private int stake;
     private int customerId;
 

@@ -7,7 +7,6 @@ import com.google.common.util.concurrent.Striped;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -15,7 +14,12 @@ import java.io.Reader;
 import java.net.InetSocketAddress;
 import java.util.Comparator;
 import java.util.UUID;
-import java.util.concurrent.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -27,29 +31,28 @@ public class Server {
     static ConcurrentHashMap<Integer, PriorityBlockingQueue<Stake>> highStakes = new ConcurrentHashMap<>();
     static ConcurrentHashMap<String, Integer> customersMaximumStake = new ConcurrentHashMap<>();
     static Cache<String, Integer> sessions = CacheBuilder.newBuilder()
-            .maximumSize(1000000)
-            .concurrencyLevel(16)
-            .expireAfterWrite(10, TimeUnit.MINUTES)
-            .build();
+        .maximumSize(1000000)
+        .concurrencyLevel(16)
+        .expireAfterWrite(10, TimeUnit.MINUTES)
+        .build();
     static Cache<Integer, String> customersSession = CacheBuilder.newBuilder()
-            .maximumSize(1000000)
-            .concurrencyLevel(16)
-            .expireAfterWrite(10, TimeUnit.MINUTES)
-            .build();
+        .maximumSize(1000000)
+        .concurrencyLevel(16)
+        .expireAfterWrite(10, TimeUnit.MINUTES)
+        .build();
 
 
     public static void main(String[] args) throws IOException {
-
 
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
         server.createContext("/", new MyHandler());
 
         ExecutorService threadPool = new ThreadPoolExecutor(
-                16,
-                256,
-                60,
-                TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(1));
+            16,
+            256,
+            60,
+            TimeUnit.SECONDS,
+            new ArrayBlockingQueue<>(1));
 
         server.setExecutor(threadPool); // creates a default executor
         server.start();
@@ -67,6 +70,7 @@ public class Server {
     }
 
     static class MyHandler implements HttpHandler {
+
         public void handle(HttpExchange httpExchange) throws IOException {
             System.out.println(httpExchange.getRequestMethod() + " " + httpExchange.getRequestURI().getPath());
 
@@ -109,8 +113,9 @@ public class Server {
                     StringBuilder sb = new StringBuilder(256);
                     for (int i = 0; i < 20; i++) {
                         Stake stake = queue.poll();
-                        if (stake == null)
+                        if (stake == null) {
                             break;
+                        }
                         sb.append(stake.getCustomerId()).append("=").append(stake.getStake()).append(",");
                     }
 

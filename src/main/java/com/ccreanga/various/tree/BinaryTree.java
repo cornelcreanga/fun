@@ -12,8 +12,9 @@ public class BinaryTree {
     }
 
     private void _inOrder(Node node, Consumer<Node> consumer) {
-        if (node == null)
+        if (node == null) {
             return;
+        }
         _inOrder(node.left(), consumer);
         consumer.accept(node);
         _inOrder(node.right(), consumer);
@@ -24,8 +25,9 @@ public class BinaryTree {
     }
 
     private void _preOrder(Node node, Consumer<Node> consumer) {
-        if (node == null)
+        if (node == null) {
             return;
+        }
         consumer.accept(node);
         _preOrder(node.left(), consumer);
         _preOrder(node.right(), consumer);
@@ -40,16 +42,20 @@ public class BinaryTree {
     }
 
     private Node _commonAncestor(Node parent, Object first, Object second) {
-        if (parent == null)
+        if (parent == null) {
             return null;
-        if (parent.getData().equals(first) || (parent.getData().equals(second)))
+        }
+        if (parent.getData().equals(first) || (parent.getData().equals(second))) {
             return parent;
+        }
         Node left = _commonAncestor(parent.left(), first, second);
         Node right = _commonAncestor(parent.right(), first, second);
-        if ((left != null) && (right != null))
+        if ((left != null) && (right != null)) {
             return parent;
-        if (left != null)
+        }
+        if (left != null) {
             return left;
+        }
         return right;
 
     }
@@ -59,17 +65,21 @@ public class BinaryTree {
     }
 
     private boolean _find(Node parent, Object value, ArrayList<Node> currentPath) {
-        if (parent == null)
+        if (parent == null) {
             return false;
+        }
         currentPath.add(parent);
-        if (parent.getData().equals(value))
+        if (parent.getData().equals(value)) {
             return true;
+        }
         boolean left = _find(parent.left(), value, currentPath);
-        if (left)
+        if (left) {
             return true;
+        }
         boolean right = _find(parent.right(), value, currentPath);
-        if (right)
+        if (right) {
             return true;
+        }
         //not found
         currentPath.remove(parent);
         return false;

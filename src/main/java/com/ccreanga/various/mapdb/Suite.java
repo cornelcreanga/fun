@@ -10,18 +10,18 @@ public class Suite {
 
     public static void main(String[] args) throws RunnerException {
 
-        Options opt = new OptionsBuilder()
-                .include(JdkMapBenchmark.class.getSimpleName())
-                .verbosity(VerboseMode.NORMAL)
-                .build();
-        new Runner(opt).run();
-
-//        opt = new OptionsBuilder()
-//                .include(MapDbBTreeBenchmark.class.getSimpleName())
+//        Options opt = new OptionsBuilder()
+//                .include(JdkMapBenchmark.class.getSimpleName())
 //                .verbosity(VerboseMode.NORMAL)
 //                .build();
 //        new Runner(opt).run();
-//
+
+        Options opt = new OptionsBuilder()
+            .include(MapDbBTreeBenchmark.class.getSimpleName())
+            .verbosity(VerboseMode.NORMAL)
+            .build();
+        new Runner(opt).run();
+
 //        opt = new OptionsBuilder()
 //                .include(MapDbHTreeBenchmark.class.getSimpleName())
 //                .verbosity(VerboseMode.NORMAL)

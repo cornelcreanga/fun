@@ -7,19 +7,18 @@ import java.io.IOException;
  * <i>Binary standard output</i>. This class provides methods for converting
  * primtive type variables (<tt>boolean</tt>, <tt>byte</tt>, <tt>char</tt>,
  * <tt>int</tt>, <tt>long</tt>, <tt>float</tt>, and <tt>double</tt>)
- * to sequences of bits and writing them to standard output.
- * Uses big-endian (most-significant byte first).
+ * to sequences of bits and writing them to standard output. Uses big-endian (most-significant byte first).
  * <p>
  * The client must <tt>flush()</tt> the output stream when finished writing bits.
  * <p>
- * The client should not intermixing calls to <tt>BinaryStdOut</tt> with calls
- * to <tt>StdOut</tt> or <tt>System.out</tt>; otherwise unexpected behavior
- * will result.
+ * The client should not intermixing calls to <tt>BinaryStdOut</tt> with calls to <tt>StdOut</tt> or <tt>System.out</tt>; otherwise unexpected
+ * behavior will result.
  *
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
 public final class BinaryStdOut {
+
     private static BufferedOutputStream out = new BufferedOutputStream(System.out);
 
     private static int buffer;     // 8-bit buffer of bits to write out
@@ -35,11 +34,15 @@ public final class BinaryStdOut {
     private static void writeBit(boolean bit) {
         // add bit to buffer
         buffer <<= 1;
-        if (bit) buffer |= 1;
+        if (bit) {
+            buffer |= 1;
+        }
 
         // if buffer is full (8 bits), write out as a single byte
         N++;
-        if (N == 8) clearBuffer();
+        if (N == 8) {
+            clearBuffer();
+        }
     }
 
     /**
@@ -67,8 +70,12 @@ public final class BinaryStdOut {
 
     // write out any remaining bits in buffer to standard output, padding with 0s
     private static void clearBuffer() {
-        if (N == 0) return;
-        if (N > 0) buffer <<= (8 - N);
+        if (N == 0) {
+            return;
+        }
+        if (N > 0) {
+            buffer <<= (8 - N);
+        }
         try {
             out.write(buffer);
         } catch (IOException e) {
@@ -79,8 +86,7 @@ public final class BinaryStdOut {
     }
 
     /**
-     * Flush standard output, padding 0s if number of bits written so far
-     * is not a multiple of 8.
+     * Flush standard output, padding 0s if number of bits written so far is not a multiple of 8.
      */
     public static void flush() {
         clearBuffer();
@@ -92,8 +98,7 @@ public final class BinaryStdOut {
     }
 
     /**
-     * Flush and close standard output. Once standard output is closed, you can no
-     * longer write bits to it.
+     * Flush and close standard output. Once standard output is closed, you can no longer write bits to it.
      */
     public static void close() {
         flush();
@@ -148,8 +153,12 @@ public final class BinaryStdOut {
             write(x);
             return;
         }
-        if (r < 1 || r > 32) throw new IllegalArgumentException("Illegal value for r = " + r);
-        if (x < 0 || x >= (1 << r)) throw new IllegalArgumentException("Illegal " + r + "-bit char = " + x);
+        if (r < 1 || r > 32) {
+            throw new IllegalArgumentException("Illegal value for r = " + r);
+        }
+        if (x < 0 || x >= (1 << r)) {
+            throw new IllegalArgumentException("Illegal " + r + "-bit char = " + x);
+        }
         for (int i = 0; i < r; i++) {
             boolean bit = ((x >>> (r - i - 1)) & 1) == 1;
             writeBit(bit);
@@ -208,7 +217,9 @@ public final class BinaryStdOut {
      * @throws IllegalArgumentException if <tt>x</tt> is not betwen 0 and 255.
      */
     public static void write(char x) {
-        if (x < 0 || x >= 256) throw new IllegalArgumentException("Illegal 8-bit char = " + x);
+        if (x < 0 || x >= 256) {
+            throw new IllegalArgumentException("Illegal 8-bit char = " + x);
+        }
         writeByte(x);
     }
 
@@ -225,8 +236,12 @@ public final class BinaryStdOut {
             write(x);
             return;
         }
-        if (r < 1 || r > 16) throw new IllegalArgumentException("Illegal value for r = " + r);
-        if (x < 0 || x >= (1 << r)) throw new IllegalArgumentException("Illegal " + r + "-bit char = " + x);
+        if (r < 1 || r > 16) {
+            throw new IllegalArgumentException("Illegal value for r = " + r);
+        }
+        if (x < 0 || x >= (1 << r)) {
+            throw new IllegalArgumentException("Illegal " + r + "-bit char = " + x);
+        }
         for (int i = 0; i < r; i++) {
             boolean bit = ((x >>> (r - i - 1)) & 1) == 1;
             writeBit(bit);
@@ -237,12 +252,12 @@ public final class BinaryStdOut {
      * Write the string of 8-bit characters to standard output.
      *
      * @param s the <tt>String</tt> to write.
-     * @throws IllegalArgumentException if any character in the string is not
-     *                                  between 0 and 255.
+     * @throws IllegalArgumentException if any character in the string is not between 0 and 255.
      */
     public static void write(String s) {
-        for (int i = 0; i < s.length(); i++)
+        for (int i = 0; i < s.length(); i++) {
             write(s.charAt(i));
+        }
     }
 
     /**
@@ -251,12 +266,12 @@ public final class BinaryStdOut {
      * @param s the <tt>String</tt> to write.
      * @param r the number of relevants bits in each character.
      * @throws IllegalArgumentException if r is not between 1 and 16.
-     * @throws IllegalArgumentException if any character in the string is not
-     *                                  between 0 and 2<sup>r</sup> - 1.
+     * @throws IllegalArgumentException if any character in the string is not between 0 and 2<sup>r</sup> - 1.
      */
     public static void write(String s, int r) {
-        for (int i = 0; i < s.length(); i++)
+        for (int i = 0; i < s.length(); i++) {
             write(s.charAt(i), r);
+        }
     }
 
     /**

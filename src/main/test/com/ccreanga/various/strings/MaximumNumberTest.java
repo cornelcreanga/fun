@@ -3,14 +3,12 @@ package com.ccreanga.various.strings;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 public class MaximumNumberTest {
+
     @Test
     public void computeMaximumNumber() throws Exception {
         String[] s = new String[]{"32", "324", "321"};
         Assert.assertEquals("32432321", MaximumNumber.computeMaximumNumber(s));
-
 
         s = new String[]{"32", "324", "321", "0", "5"};
         Assert.assertEquals("5324323210", MaximumNumber.computeMaximumNumber(s));

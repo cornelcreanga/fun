@@ -5,24 +5,20 @@ import java.io.IOException;
 
 /**
  * <i>Binary standard input</i>. This class provides methods for reading
- * in bits from standard input, either one bit at a time (as a <tt>boolean</tt>),
- * 8 bits at a time (as a <tt>byte</tt> or <tt>char</tt>),
- * 16 bits at a time (as a <tt>short</tt>), 32 bits at a time
- * (as an <tt>int</tt> or <tt>float</tt>), or 64 bits at a time (as a
+ * in bits from standard input, either one bit at a time (as a <tt>boolean</tt>), 8 bits at a time (as a <tt>byte</tt> or <tt>char</tt>), 16 bits at a
+ * time (as a <tt>short</tt>), 32 bits at a time (as an <tt>int</tt> or <tt>float</tt>), or 64 bits at a time (as a
  * <tt>double</tt> or <tt>long</tt>).
  * <p>
- * All primitive types are assumed to be represented using their
- * standard Java representations, in big-endian (most significant
- * byte first) order.
+ * All primitive types are assumed to be represented using their standard Java representations, in big-endian (most significant byte first) order.
  * <p>
- * The client should not intermix calls to <tt>BinaryStdIn</tt> with calls
- * to <tt>StdIn</tt> or <tt>System.in</tt>;
- * otherwise unexpected behavior will result.
+ * The client should not intermix calls to <tt>BinaryStdIn</tt> with calls to <tt>StdIn</tt> or <tt>System.in</tt>; otherwise unexpected behavior will
+ * result.
  *
  * @author Robert Sedgewick
  * @author Kevin Wayne
  */
 public final class BinaryStdIn {
+
     private static final int EOF = -1;    // end of file
     private static BufferedInputStream in = new BufferedInputStream(System.in);
     private static int buffer;            // one character buffer
@@ -76,23 +72,28 @@ public final class BinaryStdIn {
      * @throws RuntimeException if standard input is empty
      */
     public static boolean readBoolean() {
-        if (isEmpty()) throw new RuntimeException("Reading from empty input stream");
+        if (isEmpty()) {
+            throw new RuntimeException("Reading from empty input stream");
+        }
         N--;
         boolean bit = ((buffer >> N) & 1) == 1;
-        if (N == 0) fillBuffer();
+        if (N == 0) {
+            fillBuffer();
+        }
         return bit;
     }
 
     /**
-     * Read the next 8 bits from standard input and return as an 8-bit char.
-     * Note that <tt>char</tt> is a 16-bit type;
-     * to read the next 16 bits as a char, use <tt>readChar(16)</tt>
+     * Read the next 8 bits from standard input and return as an 8-bit char. Note that <tt>char</tt> is a 16-bit type; to read the next 16 bits as a
+     * char, use <tt>readChar(16)</tt>
      *
      * @return the next 8 bits of data from standard input as a <tt>char</tt>
      * @throws RuntimeException if there are fewer than 8 bits available on standard input
      */
     public static char readChar() {
-        if (isEmpty()) throw new RuntimeException("Reading from empty input stream");
+        if (isEmpty()) {
+            throw new RuntimeException("Reading from empty input stream");
+        }
 
         // special case when aligned byte
         if (N == 8) {
@@ -106,7 +107,9 @@ public final class BinaryStdIn {
         x <<= (8 - N);
         int oldN = N;
         fillBuffer();
-        if (isEmpty()) throw new RuntimeException("Reading from empty input stream");
+        if (isEmpty()) {
+            throw new RuntimeException("Reading from empty input stream");
+        }
         N = oldN;
         x |= (buffer >>> N);
         return (char) (x & 0xff);
@@ -123,16 +126,22 @@ public final class BinaryStdIn {
      * @throws IllegalArgumentException unless 1 &le; r &le; 16
      */
     public static char readChar(int r) {
-        if (r < 1 || r > 16) throw new IllegalArgumentException("Illegal value of r = " + r);
+        if (r < 1 || r > 16) {
+            throw new IllegalArgumentException("Illegal value of r = " + r);
+        }
 
         // optimize r = 8 case
-        if (r == 8) return readChar();
+        if (r == 8) {
+            return readChar();
+        }
 
         char x = 0;
         for (int i = 0; i < r; i++) {
             x <<= 1;
             boolean bit = readBoolean();
-            if (bit) x |= 1;
+            if (bit) {
+                x |= 1;
+            }
         }
         return x;
     }
@@ -141,11 +150,12 @@ public final class BinaryStdIn {
      * Read the remaining bytes of data from standard input and return as a string.
      *
      * @return the remaining bytes of data from standard input as a <tt>String</tt>
-     * @throws RuntimeException if standard input is empty or if the number of bits
-     *                          available on standard input is not a multiple of 8 (byte-aligned)
+     * @throws RuntimeException if standard input is empty or if the number of bits available on standard input is not a multiple of 8 (byte-aligned)
      */
     public static String readString() {
-        if (isEmpty()) throw new RuntimeException("Reading from empty input stream");
+        if (isEmpty()) {
+            throw new RuntimeException("Reading from empty input stream");
+        }
 
         StringBuilder sb = new StringBuilder();
         while (!isEmpty()) {
@@ -197,16 +207,22 @@ public final class BinaryStdIn {
      * @throws IllegalArgumentException unless 1 &le; r &le; 32
      */
     public static int readInt(int r) {
-        if (r < 1 || r > 32) throw new IllegalArgumentException("Illegal value of r = " + r);
+        if (r < 1 || r > 32) {
+            throw new IllegalArgumentException("Illegal value of r = " + r);
+        }
 
         // optimize r = 32 case
-        if (r == 32) return readInt();
+        if (r == 32) {
+            return readInt();
+        }
 
         int x = 0;
         for (int i = 0; i < r; i++) {
             x <<= 1;
             boolean bit = readBoolean();
-            if (bit) x |= 1;
+            if (bit) {
+                x |= 1;
+            }
         }
         return x;
     }
@@ -262,8 +278,7 @@ public final class BinaryStdIn {
     }
 
     /**
-     * Test client. Reads in a binary input file from standard input and writes
-     * it to standard output.
+     * Test client. Reads in a binary input file from standard input and writes it to standard output.
      */
     public static void main(String[] args) {
 

@@ -4,51 +4,36 @@ import java.io.Serializable;
 //from http://tsusiatsoftware.net/dd/main.html
 
 /**
- * Immutable, extended-precision floating-point numbers
- * which maintain 106 bits (approximately 30 decimal digits) of precision.
+ * Immutable, extended-precision floating-point numbers which maintain 106 bits (approximately 30 decimal digits) of precision.
  * <p>
- * A DoubleDouble uses a representation containing two double-precision values.
- * A number x is represented as a pair of doubles, x.hi and x.lo,
- * such that the number represented by x is x.hi + x.lo, where
+ * A DoubleDouble uses a representation containing two double-precision values. A number x is represented as a pair of doubles, x.hi and x.lo, such
+ * that the number represented by x is x.hi + x.lo, where
  * <pre>
  *    |x.lo| <= 0.5*ulp(x.hi)
  * </pre>
- * and ulp(y) means "unit in the last place of y".
- * The basic arithmetic operations are implemented using
- * convenient properties of IEEE-754 floating-point arithmetic.
+ * and ulp(y) means "unit in the last place of y". The basic arithmetic operations are implemented using convenient properties of IEEE-754
+ * floating-point arithmetic.
  * <p>
- * The range of values which can be represented is the same as in IEEE-754.
- * The precision of the representable numbers
- * is twice as great as IEEE-754 double precision.
+ * The range of values which can be represented is the same as in IEEE-754. The precision of the representable numbers is twice as great as IEEE-754
+ * double precision.
  * <p>
- * The correctness of the arithmetic algorithms relies on operations
- * being performed with standard IEEE-754 double precision and rounding.
- * This is the Java standard arithmetic model, but for performance reasons
- * Java implementations are not
- * constrained to using this standard by default.
- * Some processors (notably the Intel Pentium architecure) perform
- * floating point operations in (non-IEEE-754-standard) extended-precision.
- * A JVM implementation may choose to use the non-standard extended-precision
- * as its default arithmetic mode.
- * To prevent this from happening, this code uses the
- * Java <tt>strictfp</tt> modifier,
- * which forces all operations to take place in the standard IEEE-754 rounding model.
+ * The correctness of the arithmetic algorithms relies on operations being performed with standard IEEE-754 double precision and rounding. This is the
+ * Java standard arithmetic model, but for performance reasons Java implementations are not constrained to using this standard by default. Some
+ * processors (notably the Intel Pentium architecure) perform floating point operations in (non-IEEE-754-standard) extended-precision. A JVM
+ * implementation may choose to use the non-standard extended-precision as its default arithmetic mode. To prevent this from happening, this code uses
+ * the Java <tt>strictfp</tt> modifier, which forces all operations to take place in the standard IEEE-754 rounding model.
  * <p>
- * The API provides a value-oriented interface.  DoubleDouble values are
- * immutable; operations on them return new objects carrying the result
- * of the operation.  This provides a much simpler semantics for
- * writing DoubleDouble expressions, and Java memory management is efficient enough that
- * this imposes very little performance penalty.
+ * The API provides a value-oriented interface.  DoubleDouble values are immutable; operations on them return new objects carrying the result of the
+ * operation.  This provides a much simpler semantics for writing DoubleDouble expressions, and Java memory management is efficient enough that this
+ * imposes very little performance penalty.
  * <p>
- * This implementation uses algorithms originally designed variously by Knuth, Kahan, Dekker, and
- * Linnainmaa.  Douglas Priest developed the first C implementation of these techniques.
- * Other more recent C++ implementation are due to Keith M. Briggs and David Bailey et al.
+ * This implementation uses algorithms originally designed variously by Knuth, Kahan, Dekker, and Linnainmaa.  Douglas Priest developed the first C
+ * implementation of these techniques. Other more recent C++ implementation are due to Keith M. Briggs and David Bailey et al.
  *
  * <h3>References</h3>
  * <ul>
  * <li>Priest, D., <i>Algorithms for Arbitrary Precision Floating Point Arithmetic</i>,
- * in P. Kornerup and D. Matula, Eds., Proc. 10th Symposium on Computer Arithmetic,
- * IEEE Computer Society Press, Los Alamitos, Calif., 1991.
+ * in P. Kornerup and D. Matula, Eds., Proc. 10th Symposium on Computer Arithmetic, IEEE Computer Society Press, Los Alamitos, Calif., 1991.
  * <li>Yozo Hida, Xiaoye S. Li and David H. Bailey,
  * <i>Quad-Double Arithmetic: Algorithms, Implementation, and Application</i>,
  * manuscript, Oct 2000; Lawrence Berkeley National Laboratory Report BNL-46996.
@@ -59,34 +44,35 @@ import java.io.Serializable;
  * @author Martin Davis
  */
 public strictfp class DoubleDouble
-        implements Serializable, Comparable, Cloneable {
+    implements Serializable, Comparable, Cloneable {
+
     /**
      * The value nearest to the constant Pi.
      */
     public static final DoubleDouble PI = new DoubleDouble(
-            3.141592653589793116e+00,
-            1.224646799147353207e-16);
+        3.141592653589793116e+00,
+        1.224646799147353207e-16);
 
     /**
      * The value nearest to the constant 2 * Pi.
      */
     public static final DoubleDouble TWO_PI = new DoubleDouble(
-            6.283185307179586232e+00,
-            2.449293598294706414e-16);
+        6.283185307179586232e+00,
+        2.449293598294706414e-16);
 
     /**
      * The value nearest to the constant Pi / 2.
      */
     public static final DoubleDouble PI_2 = new DoubleDouble(
-            1.570796326794896558e+00,
-            6.123233995736766036e-17);
+        1.570796326794896558e+00,
+        6.123233995736766036e-17);
 
     /**
      * The value nearest to the constant e (the natural logarithm base).
      */
     public static final DoubleDouble E = new DoubleDouble(
-            2.718281828459045091e+00,
-            1.445646891729250158e-16);
+        2.718281828459045091e+00,
+        1.445646891729250158e-16);
 
     /**
      * A value representing the result of an operation which does not return a valid number.
@@ -157,7 +143,7 @@ public strictfp class DoubleDouble
      * @throws NumberFormatException if <tt>str</tt> is not a valid representation of a number
      */
     public DoubleDouble(String str)
-            throws NumberFormatException {
+        throws NumberFormatException {
         this(parse(str));
     }
 
@@ -169,7 +155,7 @@ public strictfp class DoubleDouble
      * @throws NumberFormatException if <tt>s</tt> is not a valid representation of a number
      */
     public static DoubleDouble valueOf(String str)
-            throws NumberFormatException {
+        throws NumberFormatException {
         return parse(str);
     }
 
@@ -203,7 +189,7 @@ public strictfp class DoubleDouble
     /**
      * Creates a string of a given length containing the given character
      *
-     * @param ch  the character to be repeated
+     * @param ch the character to be repeated
      * @param len the len of the desired string
      * @return the string
      */
@@ -240,9 +226,8 @@ public strictfp class DoubleDouble
 	*/
 
     /**
-     * Determines the decimal magnitude of a number.
-     * The magnitude is the exponent of the greatest power of 10 which is less than
-     * or equal to the number.
+     * Determines the decimal magnitude of a number. The magnitude is the exponent of the greatest power of 10 which is less than or equal to the
+     * number.
      *
      * @param x the number to find the magnitude of
      * @return the decimal magnitude of x
@@ -257,8 +242,9 @@ public strictfp class DoubleDouble
          * Following tests that magnitude is correct, and adjusts it if not
          */
         double xApprox = Math.pow(10, xMag);
-        if (xApprox * 10 <= xAbs)
+        if (xApprox * 10 <= xAbs) {
             xMag += 1;
+        }
 
         return xMag;
     }
@@ -272,9 +258,8 @@ public strictfp class DoubleDouble
 */
 
     /**
-     * Converts a string representation of a real number into a DoubleDouble value.
-     * The format accepted is similar to the standard Java real number syntax.
-     * It is defined by the following regular expression:
+     * Converts a string representation of a real number into a DoubleDouble value. The format accepted is similar to the standard Java real number
+     * syntax. It is defined by the following regular expression:
      * <pre>
      * [<tt>+</tt>|<tt>-</tt>] {<i>digit</i>} [ <tt>.</tt> {<i>digit</i>} ] [ ( <tt>e</tt> | <tt>E</tt> ) [<tt>+</tt>|<tt>-</tt>] {<i>digit</i>}+
      * <pre>
@@ -284,13 +269,14 @@ public strictfp class DoubleDouble
      * @throws NumberFormatException if <tt>str</tt> is not a valid representation of a number
      */
     public static DoubleDouble parse(String str)
-            throws NumberFormatException {
+        throws NumberFormatException {
         int i = 0;
         int strlen = str.length();
 
         // skip leading whitespace
-        while (Character.isWhitespace(str.charAt(i)))
+        while (Character.isWhitespace(str.charAt(i))) {
             i++;
+        }
 
         // check for sign
         boolean isNegative = false;
@@ -298,7 +284,9 @@ public strictfp class DoubleDouble
             char signCh = str.charAt(i);
             if (signCh == '-' || signCh == '+') {
                 i++;
-                if (signCh == '-') isNegative = true;
+                if (signCh == '-') {
+                    isNegative = true;
+                }
             }
         }
 
@@ -310,8 +298,9 @@ public strictfp class DoubleDouble
         int numBeforeDec = 0;
         int exp = 0;
         while (true) {
-            if (i >= strlen)
+            if (i >= strlen) {
                 break;
+            }
             char ch = str.charAt(i);
             i++;
             if (Character.isDigit(ch)) {
@@ -337,8 +326,8 @@ public strictfp class DoubleDouble
                 break;
             }
             throw new NumberFormatException("Unexpected character '" + ch
-                    + "' at position " + i
-                    + " in string " + str);
+                + "' at position " + i
+                + " in string " + str);
         }
         DoubleDouble val2 = val;
 
@@ -413,15 +402,15 @@ public strictfp class DoubleDouble
      * @return <tt>(this + y)</tt>
      */
     public DoubleDouble add(DoubleDouble y) {
-        if (isNaN()) return this;
+        if (isNaN()) {
+            return this;
+        }
         return (new DoubleDouble(this)).selfAdd(y);
     }
 
     /**
-     * Adds the argument to the value of <tt>this</tt>.
-     * To prevent altering constants,
-     * this method <b>must only</b> be used on values known to
-     * be newly created.
+     * Adds the argument to the value of <tt>this</tt>. To prevent altering constants, this method <b>must only</b> be used on values known to be
+     * newly created.
      *
      * @param y the addend
      * @return <tt>this</tt>, with its value incremented by <tt>y</tt>
@@ -456,7 +445,9 @@ public strictfp class DoubleDouble
      * @return <tt>(this - y)</tt>
      */
     public DoubleDouble subtract(DoubleDouble y) {
-        if (isNaN()) return this;
+        if (isNaN()) {
+            return this;
+        }
         return add(y.negate());
     }
 
@@ -466,7 +457,9 @@ public strictfp class DoubleDouble
      * @return <tt>-this</tt>
      */
     public DoubleDouble negate() {
-        if (isNaN()) return this;
+        if (isNaN()) {
+            return this;
+        }
         return new DoubleDouble(-hi, -lo);
     }
 
@@ -477,16 +470,18 @@ public strictfp class DoubleDouble
      * @return <tt>(this * y)</tt>
      */
     public DoubleDouble multiply(DoubleDouble y) {
-        if (isNaN()) return this;
-        if (y.isNaN()) return y;
+        if (isNaN()) {
+            return this;
+        }
+        if (y.isNaN()) {
+            return y;
+        }
         return (new DoubleDouble(this)).selfMultiply(y);
     }
 
     /**
-     * Multiplies this by the argument, returning this.
-     * To prevent altering constants,
-     * this method <b>must only</b> be used on values known to
-     * be newly created.
+     * Multiplies this by the argument, returning this. To prevent altering constants, this method <b>must only</b> be used on values known to be
+     * newly created.
      *
      * @param y a DoubleDouble value to multiply by
      * @return this
@@ -564,20 +559,18 @@ public strictfp class DoubleDouble
     }
 
     /**
-     * Returns the largest (closest to positive infinity)
-     * value that is not greater than the argument
-     * and is equal to a mathematical integer.
-     * Special cases:
+     * Returns the largest (closest to positive infinity) value that is not greater than the argument and is equal to a mathematical integer. Special
+     * cases:
      * <ul>
      * <li>If this value is NaN, returns NaN.
      * </ul>
      *
-     * @return the largest (closest to positive infinity)
-     * value that is not greater than the argument
-     * and is equal to a mathematical integer.
+     * @return the largest (closest to positive infinity) value that is not greater than the argument and is equal to a mathematical integer.
      */
     public DoubleDouble floor() {
-        if (isNaN()) return NaN;
+        if (isNaN()) {
+            return NaN;
+        }
         double fhi = Math.floor(hi);
         double flo = 0.0;
         // Hi is already integral.  Floor the low word
@@ -594,18 +587,18 @@ public strictfp class DoubleDouble
      */
 
     /**
-     * Returns the smallest (closest to negative infinity) value
-     * that is not less than the argument and is equal to a mathematical integer.
-     * Special cases:
+     * Returns the smallest (closest to negative infinity) value that is not less than the argument and is equal to a mathematical integer. Special
+     * cases:
      * <ul>
      * <li>If this value is NaN, returns NaN.
      * </ul>
      *
-     * @return the smallest (closest to negative infinity) value
-     * that is not less than the argument and is equal to a mathematical integer.
+     * @return the smallest (closest to negative infinity) value that is not less than the argument and is equal to a mathematical integer.
      */
     public DoubleDouble ceil() {
-        if (isNaN()) return NaN;
+        if (isNaN()) {
+            return NaN;
+        }
         double fhi = Math.ceil(hi);
         double flo = 0.0;
         // Hi is already integral.  Ceil the low word
@@ -628,8 +621,12 @@ public strictfp class DoubleDouble
      * @return an integer indicating the sign of this value
      */
     public int signum() {
-        if (isPositive()) return 1;
-        if (isNegative()) return -1;
+        if (isPositive()) {
+            return 1;
+        }
+        if (isNegative()) {
+            return -1;
+        }
         return 0;
     }
 
@@ -639,9 +636,7 @@ public strictfp class DoubleDouble
      */
 
     /**
-     * Rounds this value to the nearest integer.
-     * The value is rounded to an integer by adding 1/2 and taking the floor of the result.
-     * Special cases:
+     * Rounds this value to the nearest integer. The value is rounded to an integer by adding 1/2 and taking the floor of the result. Special cases:
      * <ul>
      * <li>If this value is NaN, returns NaN.
      * </ul>
@@ -649,16 +644,16 @@ public strictfp class DoubleDouble
      * @return this value rounded to the nearest integer
      */
     public DoubleDouble rint() {
-        if (isNaN()) return this;
+        if (isNaN()) {
+            return this;
+        }
         // may not be 100% correct
         DoubleDouble plus5 = this.add(new DoubleDouble(0.5));
         return plus5.floor();
     }
 
     /**
-     * Returns the integer which is largest in absolute value and not further
-     * from zero than this value.
-     * Special cases:
+     * Returns the integer which is largest in absolute value and not further from zero than this value. Special cases:
      * <ul>
      * <li>If this value is NaN, returns NaN.
      * </ul>
@@ -666,16 +661,18 @@ public strictfp class DoubleDouble
      * @return the integer which is largest in absolute value and not further from zero than this value
      */
     public DoubleDouble trunc() {
-        if (isNaN()) return NaN;
-        if (isPositive())
+        if (isNaN()) {
+            return NaN;
+        }
+        if (isPositive()) {
             return floor();
-        else
+        } else {
             return ceil();
+        }
     }
 
     /**
-     * Returns the absolute value of this value.
-     * Special cases:
+     * Returns the absolute value of this value. Special cases:
      * <ul>
      * <li>If this value is NaN, it is returned.
      * </ul>
@@ -683,9 +680,12 @@ public strictfp class DoubleDouble
      * @return the absolute value of this value
      */
     public DoubleDouble abs() {
-        if (isNaN()) return NaN;
-        if (isNegative())
+        if (isNaN()) {
+            return NaN;
+        }
+        if (isNegative()) {
             return negate();
+        }
         return new DoubleDouble(this);
     }
 
@@ -699,11 +699,9 @@ public strictfp class DoubleDouble
     }
 
     /**
-     * Computes the positive square root of this value.
-     * If the number is NaN or negative, NaN is returned.
+     * Computes the positive square root of this value. If the number is NaN or negative, NaN is returned.
      *
-     * @return the positive square root of this number.
-     * If the argument is NaN or less than zero, the result is NaN.
+     * @return the positive square root of this number. If the argument is NaN or less than zero, the result is NaN.
      */
     public DoubleDouble sqrt() {
 	  /* Strategy:  Use Karp's trick:  if x is an approximation
@@ -716,8 +714,9 @@ public strictfp class DoubleDouble
     only half the precision.
  */
 
-        if (isZero())
+        if (isZero()) {
             return new DoubleDouble(0.0);
+        }
 
         if (isNegative()) {
             return NaN;
@@ -734,15 +733,15 @@ public strictfp class DoubleDouble
     }
 
     /**
-     * Computes the value of this number raised to an integral power.
-     * Follows semantics of Java Math.pow as closely as possible.
+     * Computes the value of this number raised to an integral power. Follows semantics of Java Math.pow as closely as possible.
      *
      * @param exp the integer exponent
      * @return x raised to the integral power exp
      */
     public DoubleDouble pow(int exp) {
-        if (exp == 0.0)
+        if (exp == 0.0) {
             return valueOf(1.0);
+        }
 
         DoubleDouble r = new DoubleDouble(this);
         DoubleDouble s = valueOf(1.0);
@@ -755,16 +754,18 @@ public strictfp class DoubleDouble
                     s.selfMultiply(r);
                 }
                 n /= 2;
-                if (n > 0)
+                if (n > 0) {
                     r = r.sqr();
+                }
             }
         } else {
             s = r;
         }
 
         /* Compute the reciprocal if n is negative. */
-        if (exp < 0)
+        if (exp < 0) {
             return s.reciprocal();
+        }
         return s;
     }
 
@@ -881,16 +882,23 @@ public strictfp class DoubleDouble
     /**
      * Compares two DoubleDouble objects numerically.
      *
-     * @return -1,0 or 1 depending on whether this value is less than, equal to
-     * or greater than the value of <tt>o</tt>
+     * @return -1,0 or 1 depending on whether this value is less than, equal to or greater than the value of <tt>o</tt>
      */
     public int compareTo(Object o) {
         DoubleDouble other = (DoubleDouble) o;
 
-        if (hi < other.hi) return -1;
-        if (hi > other.hi) return 1;
-        if (lo < other.lo) return -1;
-        if (lo > other.lo) return 1;
+        if (hi < other.hi) {
+            return -1;
+        }
+        if (hi > other.hi) {
+            return 1;
+        }
+        if (lo < other.lo) {
+            return -1;
+        }
+        if (lo > other.lo) {
+            return 1;
+        }
         return 0;
     }
 
@@ -904,16 +912,16 @@ public strictfp class DoubleDouble
     }
 
     /**
-     * Returns a string representation of this number, in either standard or scientific notation.
-     * If the magnitude of the number is in the range [ 10<sup>-3</sup>, 10<sup>8</sup> ]
-     * standard notation will be used.  Otherwise, scientific notation will be used.
+     * Returns a string representation of this number, in either standard or scientific notation. If the magnitude of the number is in the range [
+     * 10<sup>-3</sup>, 10<sup>8</sup> ] standard notation will be used.  Otherwise, scientific notation will be used.
      *
      * @return a string representation of this number
      */
     public String toString() {
         int mag = magnitude(hi);
-        if (mag >= -3 && mag <= 20)
+        if (mag >= -3 && mag <= 20) {
             return toStandardNotation();
+        }
         return toSciNotation();
     }
 
@@ -924,8 +932,9 @@ public strictfp class DoubleDouble
      */
     public String toStandardNotation() {
         String specialStr = getSpecialNumberString();
-        if (specialStr != null)
+        if (specialStr != null) {
             return specialStr;
+        }
 
         int[] magnitude = new int[1];
         String sigDigits = extractSignificantDigits(true, magnitude);
@@ -945,8 +954,9 @@ public strictfp class DoubleDouble
             num = sigDigits + zeroes + ".0";
         }
 
-        if (this.isNegative())
+        if (this.isNegative()) {
             return "-" + num;
+        }
         return num;
     }
 
@@ -957,12 +967,14 @@ public strictfp class DoubleDouble
      */
     public String toSciNotation() {
         // special case zero, to allow as
-        if (isZero())
+        if (isZero()) {
             return SCI_NOT_ZERO;
+        }
 
         String specialStr = getSpecialNumberString();
-        if (specialStr != null)
+        if (specialStr != null) {
             return specialStr;
+        }
 
         int[] magnitude = new int[1];
         String digits = extractSignificantDigits(false, magnitude);
@@ -976,22 +988,23 @@ public strictfp class DoubleDouble
 
         // add decimal point
         String trailingDigits = "";
-        if (digits.length() > 1)
+        if (digits.length() > 1) {
             trailingDigits = digits.substring(1);
+        }
         String digitsWithDecimal = digits.charAt(0) + "." + trailingDigits;
 
-        if (this.isNegative())
+        if (this.isNegative()) {
             return "-" + digitsWithDecimal + expStr;
+        }
         return digitsWithDecimal + expStr;
     }
 
     /**
-     * Extracts the significant digits in the decimal representation of the argument.
-     * A decimal point may be optionally inserted in the string of digits
-     * (as long as its position lies within the extracted digits
-     * - if not, the caller must prepend or append the appropriate zeroes and decimal point).
+     * Extracts the significant digits in the decimal representation of the argument. A decimal point may be optionally inserted in the string of
+     * digits (as long as its position lies within the extracted digits - if not, the caller must prepend or append the appropriate zeroes and decimal
+     * point).
      *
-     * @param y               the number to extract ( >= 0)
+     * @param y the number to extract ( >= 0)
      * @param decimalPointPos the position in which to insert a decimal point
      * @return the string containing the significant digits and possibly a decimal point
      */
@@ -1050,9 +1063,10 @@ public strictfp class DoubleDouble
             }
             buf.append(digitChar);
             y = (y.subtract(DoubleDouble.valueOf(digit))
-                    .multiply(TEN));
-            if (rebiasBy10)
+                .multiply(TEN));
+            if (rebiasBy10) {
                 y.selfAdd(TEN);
+            }
 
             boolean continueExtractingDigits = true;
             /**
@@ -1067,10 +1081,12 @@ public strictfp class DoubleDouble
              * Do this by comparing the magnitude of the remainder with the expected precision.
              */
             int remMag = magnitude(y.hi);
-            if (remMag < 0 && Math.abs(remMag) >= (numDigits - i))
+            if (remMag < 0 && Math.abs(remMag) >= (numDigits - i)) {
                 continueExtractingDigits = false;
-            if (!continueExtractingDigits)
+            }
+            if (!continueExtractingDigits) {
                 break;
+            }
         }
         magnitude[0] = mag;
         return buf.toString();
@@ -1083,14 +1099,17 @@ public strictfp class DoubleDouble
      */
 
     /**
-     * Returns the string for this value if it has a known representation.
-     * (E.g. NaN or 0.0)
+     * Returns the string for this value if it has a known representation. (E.g. NaN or 0.0)
      *
      * @return null if the number is not a special number
      */
     private String getSpecialNumberString() {
-        if (isZero()) return "0.0";
-        if (isNaN()) return "NaN ";
+        if (isZero()) {
+            return "0.0";
+        }
+        if (isNaN()) {
+            return "NaN ";
+        }
         return null;
     }
 }

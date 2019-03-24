@@ -1,10 +1,6 @@
 package com.ccreanga.various.airport;
 
 import com.ccreanga.various.airport.messages.AirplaneMessage;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
-import org.apache.commons.csv.CSVRecord;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 
 public class Airport {
 
@@ -28,12 +27,10 @@ public class Airport {
         new Thread(c1).start();
         new Thread(c2).start();
 
-
         if (args.length != 1) {
             System.out.println("the config file path should be passed as an argument");
             System.exit(1);
         }
-
 
         CSVParser csvParser = null;
         try {
@@ -46,12 +43,12 @@ public class Airport {
         List<Thread> threadList = new ArrayList<>();
         for (CSVRecord csvRecord : csvRecords) {
             Airplane a = new Airplane(
-                    csvRecord.get(0),
-                    csvRecord.get(1).trim().equals("Regular"),
-                    csvRecord.get(2).trim().equals("Emergency"),
-                    Integer.parseInt(csvRecord.get(3).trim()),
-                    waitingPlanesManager,
-                    airplaneToControllers);
+                csvRecord.get(0),
+                csvRecord.get(1).trim().equals("Regular"),
+                csvRecord.get(2).trim().equals("Emergency"),
+                Integer.parseInt(csvRecord.get(3).trim()),
+                waitingPlanesManager,
+                airplaneToControllers);
             System.out.println(a);
 
             Thread t = new Thread(a);
