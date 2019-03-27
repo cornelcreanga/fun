@@ -6,6 +6,8 @@ import static com.ccreanga.various.mapdb.Common.random;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
@@ -20,6 +22,7 @@ import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
 
 @BenchmarkMode(Mode.AverageTime)
@@ -54,6 +57,7 @@ public class MapDbBTreeBenchmark {
     }
 
     @Benchmark
+    @Threads(1)
     public static void randomAccess() {
         for (int i = 0; i < Common.ITERATIONS; i++) {
             map.get(random(Common.MAP_SIZE));

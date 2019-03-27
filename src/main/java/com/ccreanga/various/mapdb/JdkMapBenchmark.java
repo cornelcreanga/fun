@@ -17,12 +17,13 @@ import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
-@Fork(value = 1, jvmArgs = {"-Xms1G", "-Xmx1G"})
+@Fork(value = 1, jvmArgs = {"-Xms4G", "-Xmx4G"})
 @Warmup(iterations = 2)
 @Measurement(iterations = 3)
 public class JdkMapBenchmark {
@@ -37,6 +38,7 @@ public class JdkMapBenchmark {
     }
 
     @Benchmark
+    @Threads(1)
     public static void randomAccess() {
         for (int i = 0; i < ITERATIONS; i++) {
             map.get(random(MAP_SIZE));
