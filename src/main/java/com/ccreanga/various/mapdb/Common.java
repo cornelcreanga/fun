@@ -9,6 +9,13 @@ public class Common {
 
     public static final int ITERATIONS = 1_000_000;
     public static final int MAP_SIZE = 5_000_000;
+    public static long[] rand = new long[ITERATIONS];
+
+    static {
+        for (int i = 0; i < ITERATIONS; i++) {
+            rand[i]=random(MAP_SIZE);
+        }
+    }
 
     public static long random(int max) {
         return (long) (Math.random() * max);

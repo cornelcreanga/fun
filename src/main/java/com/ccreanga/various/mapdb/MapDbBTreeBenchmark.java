@@ -1,13 +1,10 @@
 package com.ccreanga.various.mapdb;
 
-import static com.ccreanga.various.mapdb.Common.newPath;
-import static com.ccreanga.various.mapdb.Common.random;
+import static com.ccreanga.various.mapdb.Common.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
@@ -28,7 +25,7 @@ import org.openjdk.jmh.annotations.Warmup;
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
-@Fork(value = 1, jvmArgs = {"-Xms1G", "-Xmx1G"})
+@Fork(value = 1, jvmArgs = {"-Xms4G", "-Xmx4G"})
 @Warmup(iterations = 2)
 @Measurement(iterations = 3)
 public class MapDbBTreeBenchmark {
@@ -36,7 +33,6 @@ public class MapDbBTreeBenchmark {
     public static final String DB_PATH = "/tmp/b-tree.db";
     private static ConcurrentMap<Long, String> map;
     private static DB db;
-    private static int c = 1;
 
     @Setup(Level.Trial)
     public static void fillMemoryMappedMap() throws IOException {
@@ -57,18 +53,18 @@ public class MapDbBTreeBenchmark {
     }
 
     @Benchmark
-    @Threads(1)
+    @Threads(4)
     public static void randomAccess() {
         for (int i = 0; i < Common.ITERATIONS; i++) {
-            map.get(random(Common.MAP_SIZE));
+            map.get(rand[i]);
         }
     }
 
     @Benchmark
+    @Threads(4)
     public static void randomUpdate() {
         for (int i = 0; i < Common.ITERATIONS; i++) {
-            map.put((long) i, ("item" + c) + i);
-            c++;
+            map.put(rand[i], "new_item" + i);
         }
         db.commit();
         db.getStore().compact();

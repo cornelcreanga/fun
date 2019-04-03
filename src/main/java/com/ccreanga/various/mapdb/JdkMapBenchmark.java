@@ -1,8 +1,6 @@
 package com.ccreanga.various.mapdb;
 
-import static com.ccreanga.various.mapdb.Common.ITERATIONS;
-import static com.ccreanga.various.mapdb.Common.MAP_SIZE;
-import static com.ccreanga.various.mapdb.Common.random;
+import static com.ccreanga.various.mapdb.Common.*;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -30,6 +28,7 @@ public class JdkMapBenchmark {
 
     private static ConcurrentMap<Long, String> map = new ConcurrentHashMap<>();
 
+
     @Setup(Level.Trial)
     public static void fillMemoryMap() {
         for (int i = 0; i < MAP_SIZE; i++) {
@@ -38,18 +37,18 @@ public class JdkMapBenchmark {
     }
 
     @Benchmark
-    @Threads(1)
+    @Threads(4)
     public static void randomAccess() {
         for (int i = 0; i < ITERATIONS; i++) {
-            map.get(random(MAP_SIZE));
+            map.get(rand[i]);
         }
-
     }
 
     @Benchmark
+    @Threads(4)
     public static void randomUpdate() {
         for (int i = 0; i < Common.ITERATIONS; i++) {
-            map.put((long) i, "item2" + i);
+            map.put(rand[i], "new_item" + i);
         }
     }
 

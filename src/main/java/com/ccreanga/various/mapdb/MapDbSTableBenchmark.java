@@ -2,8 +2,7 @@ package com.ccreanga.various.mapdb;
 
 import static com.ccreanga.various.mapdb.Common.ITERATIONS;
 import static com.ccreanga.various.mapdb.Common.MAP_SIZE;
-import static com.ccreanga.various.mapdb.Common.newPath;
-import static com.ccreanga.various.mapdb.Common.random;
+import static com.ccreanga.various.mapdb.Common.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -23,12 +22,13 @@ import org.openjdk.jmh.annotations.OutputTimeUnit;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
+import org.openjdk.jmh.annotations.Threads;
 import org.openjdk.jmh.annotations.Warmup;
 
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
-@Fork(value = 1, jvmArgs = {"-Xms1G", "-Xmx1G"})
+@Fork(value = 1, jvmArgs = {"-Xms4G", "-Xmx4G"})
 @Warmup(iterations = 2)
 @Measurement(iterations = 3)
 public class MapDbSTableBenchmark {
@@ -56,9 +56,10 @@ public class MapDbSTableBenchmark {
     }
 
     @Benchmark
+    @Threads(4)
     public static void randomAccess() {
         for (int i = 0; i < ITERATIONS; i++) {
-            map.get(random(MAP_SIZE));
+            map.get(rand[i]);
         }
     }
 
