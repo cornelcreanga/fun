@@ -19,9 +19,15 @@
     <mapdb.version>3.0.7</mapdb.version>
     <jedis.version>3.0.1</jedis.version>
     <hazelcast.version>3.11.2</hazelcast.version>
+    <kryo.version>4.0.2</kryo.version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.esotericsoftware</groupId>
+      <artifactId>kryo</artifactId>
+      <version>${kryo.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.mapdb</groupId>
