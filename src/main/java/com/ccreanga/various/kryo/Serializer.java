@@ -6,7 +6,10 @@ import static com.ccreanga.various.mapdb.Common.rand;
 import com.ccreanga.various.mapdb.Common;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Output;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.nio.file.Path;
 import java.util.concurrent.TimeUnit;
 import org.mapdb.DBMaker;
@@ -36,7 +39,7 @@ import org.openjdk.jmh.runner.options.VerboseMode;
 @Measurement(iterations = 3)
 public class Serializer {
 
-    static int no = 1_000_000;
+    static int no = 10_000_000;
     static Message[] messages = new Message[no];
 
     @Setup(Level.Trial)
@@ -48,14 +51,25 @@ public class Serializer {
 
     @Benchmark
     @Threads(1)
-    public static void serialize() {
+    public static void serializeKryo() {
         Kryo kryo = new Kryo();
         Output output = new Output(128,1024);
-        for (int i = 0; i < messages.length; i++) {
-            kryo.writeObject(output, messages[i]);
+        for (Message message : messages) {
+            kryo.writeObject(output, message);
             output.clear();
         }
     }
+
+    @Benchmark
+    @Threads(1)
+    public static void serializeCustom() throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream(128);
+        for (Message message : messages) {
+            message.writeExternal(out);
+            out.reset();
+        }
+    }
+
 
     public static void main(String[] args) throws RunnerException {
         Options opt;

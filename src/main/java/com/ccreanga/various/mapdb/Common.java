@@ -21,7 +21,7 @@ public class Common {
         return (long) (Math.random() * max);
     }
 
-    public long size(String path) throws IOException {
+    public static long size(String path) throws IOException {
         return Files.size(Paths.get(path));
     }
 
