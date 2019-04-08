@@ -11,6 +11,9 @@ public class Message {
     private byte[] message;
     private long timestamp;
 
+    private Message() {
+    }
+
     public Message(long id, long matchId, byte[] message, long timestamp) {
         this.id = id;
         this.matchId = matchId;
@@ -25,44 +28,35 @@ public class Message {
         out.write((int)(matchId >> 32));
         out.write((int)matchId);
 
-        out.write(message.length);
-        out.write(message);
+        if (message!=null){
+            out.write(message.length);
+            out.write(message);
+        }else{
+            out.write(0);
+        }
+
 
         out.write((int)(timestamp >> 32));
         out.write((int)timestamp);
     }
 
-    public void readExternal(InputStream in) throws IOException {
+    public static Message readExternal(InputStream in) throws IOException {
+        Message m = new Message();
         int a,b;
         a = in.read();
         b = in.read();
-        id = (long)a << 32 | b & 0xFFFFFFFFL;
+        m.id = (long)a << 32 | b & 0xFFFFFFFFL;
         a = in.read();
         b = in.read();
-        matchId = (long)a << 32 | b & 0xFFFFFFFFL;
+        m.matchId = (long)a << 32 | b & 0xFFFFFFFFL;
         a = in.read();
-        message = new byte[a];
-        in.read(message);
+        if (a!=0) {
+            m.message = new byte[a];
+            in.read(m.message);
+        }
         a = in.read();
         b = in.read();
-        timestamp = (long)a << 32 | b & 0xFFFFFFFFL;
-    }
-
-    public static byte[] longToBytes(long l) {
-        byte[] result = new byte[8];
-        for (int i = 7; i >= 0; i--) {
-            result[i] = (byte)(l & 0xFF);
-            l >>= 8;
-        }
-        return result;
-    }
-
-    public static long bytesToLong(byte[] b) {
-        long result = 0;
-        for (int i = 0; i < 8; i++) {
-            result <<= 8;
-            result |= (b[i] & 0xFF);
-        }
-        return result;
+        m.timestamp = (long)a << 32 | b & 0xFFFFFFFFL;
+        return m;
     }
 }
