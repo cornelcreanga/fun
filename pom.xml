@@ -20,9 +20,39 @@
     <jedis.version>3.0.1</jedis.version>
     <hazelcast.version>3.11.2</hazelcast.version>
     <kryo.version>4.0.2</kryo.version>
+    <sux4j.version>4.3.0</sux4j.version>
+    <koloboke.version>1.0.0</koloboke.version>
+    <fastutil.version>8.1.0</fastutil.version>
   </properties>
 
   <dependencies>
+
+    <dependency>
+      <groupId>it.unimi.dsi</groupId>
+      <artifactId>sux4j</artifactId>
+      <version>${sux4j.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.koloboke</groupId>
+      <artifactId>koloboke-api-jdk8</artifactId>
+      <version>${koloboke.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.koloboke</groupId>
+      <artifactId>koloboke-impl-jdk8</artifactId>
+      <version>${koloboke.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>it.unimi.dsi</groupId>
+      <artifactId>fastutil</artifactId>
+      <version>${fastutil.version}</version>
+    </dependency>
+
+
+
     <dependency>
       <groupId>com.esotericsoftware</groupId>
       <artifactId>kryo</artifactId>
