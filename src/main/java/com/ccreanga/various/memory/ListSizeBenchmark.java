@@ -7,7 +7,9 @@ import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongIterator;
 import it.unimi.dsi.fastutil.longs.LongIterators;
 import it.unimi.dsi.sux4j.util.EliasFanoLongBigList;
+import it.unimi.dsi.sux4j.util.EliasFanoMonotoneLongBigList;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,14 +26,14 @@ public class ListSizeBenchmark {
     private static void listSize(){
         List<Long> jdkList = new ArrayList<>(LIST_SIZE);
         for (int i = 0; i < LIST_SIZE; i++) {
-            jdkList.add((long)(Math.random()*Short.MAX_VALUE));
+            jdkList.add((long)(Math.random()*Integer.MAX_VALUE));
         }
         long deepSize = sizeOf.deepSizeOf(jdkList);
         System.out.println(FormatUtil.readableSize(deepSize));
 
         LongArrayList fastUtilList = new LongArrayList(LIST_SIZE);
         for (int i = 0; i < LIST_SIZE; i++) {
-            fastUtilList.add((long)(Math.random()*Short.MAX_VALUE));
+            fastUtilList.add((long)(Math.random()*Integer.MAX_VALUE));
         }
         deepSize = sizeOf.deepSizeOf(fastUtilList);
         System.out.println(FormatUtil.readableSize(deepSize));
@@ -40,6 +42,15 @@ public class ListSizeBenchmark {
         LongIterator longIterator = LongIterators.asLongIterator(jdkList.iterator());
         EliasFanoLongBigList succintList = new EliasFanoLongBigList(longIterator);
         deepSize = sizeOf.deepSizeOf(succintList);
+        System.out.println(FormatUtil.readableSize(deepSize));
+
+        jdkList.sort(Long::compareTo);
+        int size = jdkList.size();
+        EliasFanoMonotoneLongBigList monotonicSuccintList = new EliasFanoMonotoneLongBigList(
+            size,
+            jdkList.get(size-1),
+            LongIterators.asLongIterator(jdkList.iterator()));
+        deepSize = sizeOf.deepSizeOf(monotonicSuccintList);
         System.out.println(FormatUtil.readableSize(deepSize));
     }
 

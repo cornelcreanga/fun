@@ -6,6 +6,7 @@ import com.ccreanga.various.mapdb.JdkMapBenchmark;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
 import it.unimi.dsi.fastutil.longs.LongIterators;
 import it.unimi.dsi.sux4j.util.EliasFanoLongBigList;
+import it.unimi.dsi.sux4j.util.EliasFanoMonotoneLongBigList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -36,12 +37,14 @@ import org.openjdk.jmh.runner.options.VerboseMode;
 @Warmup(iterations = 2)
 @Measurement(iterations = 3)
 public class ListSpeedBenchmark {
-    static int SIZE = 1000000;
-    static int ITERATIONS = 1000000;
+    static int SIZE = 1_000_000;
+    static int ITERATIONS = 1_000_000;
     public static int[] intRand;
     private static  List<Long> jdkList;
+    private static  List<Long> jdkSortedList;
     private static LongArrayList fastUtilList;
     private static  EliasFanoLongBigList succintList;
+    private static  EliasFanoMonotoneLongBigList monotonicSuccintList;
 
 
     @Setup(Level.Trial)
@@ -53,7 +56,12 @@ public class ListSpeedBenchmark {
             jdkList.add((long)(Math.random()*Integer.MAX_VALUE));
             fastUtilList.add((long)(Math.random()*Integer.MAX_VALUE));
         }
+        jdkSortedList = new ArrayList<>(jdkList);
+        jdkSortedList.sort(Long::compareTo);
+        int size = jdkSortedList.size();
+
         succintList = new EliasFanoLongBigList(LongIterators.asLongIterator(jdkList.iterator()));
+        monotonicSuccintList = new EliasFanoMonotoneLongBigList(size,jdkSortedList.get(size-1),LongIterators.asLongIterator(jdkSortedList.iterator()));
 
         for (int i = 0; i < ITERATIONS; i++) {
             intRand[i]=(int)(Math.random()*i);
@@ -76,6 +84,12 @@ public class ListSpeedBenchmark {
     public static void randomAccessSuccint() {
         for (int i = 0; i < ITERATIONS; i++) {
             succintList.getLong(intRand[i]);
+        }
+    }
+    @Benchmark
+    public static void randomAccessMonotonicSuccint() {
+        for (int i = 0; i < ITERATIONS; i++) {
+            monotonicSuccintList.getLong(intRand[i]);
         }
     }
 
