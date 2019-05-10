@@ -2,33 +2,30 @@ package com.ccreanga.various.lists.linked;
 
 import java.util.function.Consumer;
 
-public class LinkList {
-    Node head; // head of list
-    Node last;
+public class SingleLinkedList<T> {
+    Node<T> head; // head of list
+    Node<T> last;
     int count = 0;
 
-    /* Linked list Node*/
-    class Node {
-        Object data;
-        Node next;
-
-        Node(Object d) { data = d; }
+    public SingleLinkedList() {
     }
 
-    public LinkList() {
+    public Node<T> getHead() {
+        return head;
     }
 
-    public void add(Object data){
+    public void add(T data){
         if (head==null){
-            head = new Node(data);last=head;
+            head = new Node<>(data);
+            last=head;
         }else{
-            last.next = new Node(data);
+            last.next = new Node<>(data);
             last = last.next;
         }
     }
 
-    public void iterate(Consumer<Node> consumer) {
-        Node current = head;
+    public void iterate(Consumer<Node<T>> consumer) {
+        Node<T> current = head;
         while (current != null) {
             consumer.accept(current);
             // Go to next node
@@ -37,9 +34,9 @@ public class LinkList {
     }
 
     public void reverse(){
-        Node prev = null;
-        Node current = head;
-        Node next = null;
+        Node<T> prev = null;
+        Node<T> current = head;
+        Node<T> next = null;
         while (current != null) {
             next = current.next;
             current.next = prev;
@@ -51,12 +48,12 @@ public class LinkList {
 
 
     public static void main(String[] args) {
-        LinkList list = new LinkList();
+        SingleLinkedList<String> list = new SingleLinkedList<>();
         list.add("1");
         list.add("2");
         list.add("3");
         list.add("4");
-        list.iterate(node -> System.out.println(node.data));
+        list.iterate(node -> System.out.println(node.getData()));
         list.reverse();
         System.out.println();
     }
