@@ -3,6 +3,7 @@ package com.ccreanga.various.json;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.smile.SmileFactory;
+import com.fasterxml.jackson.dataformat.smile.SmileGenerator;
 import com.google.common.io.ByteStreams;
 
 import java.io.File;
@@ -15,7 +16,9 @@ public class Smile {
     public static void main(String[] args) throws Exception{
 
         ObjectMapper jsonMapper = new ObjectMapper();
-        ObjectMapper smileMapper = new ObjectMapper(new SmileFactory());
+        SmileFactory factory = new SmileFactory();
+        factory.enable(SmileGenerator.Feature.CHECK_SHARED_STRING_VALUES);
+        ObjectMapper smileMapper = new ObjectMapper(factory);
 
         long jsonLength=0, smileLength=0;
         File folder = new File("/home/cornel/Downloads/0104245f-c017-11e9-bac6-1d971f3632a6");
