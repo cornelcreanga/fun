@@ -25,7 +25,7 @@
     <fastutil.version>8.1.0</fastutil.version>
     <chronicle-map.version>3.17.1</chronicle-map.version>
     <sizeof.version>0.4.0-SNAPSHOT</sizeof.version>
-    <jackson.version>2.9.10</jackson.version>
+    <jackson.version>2.11.0</jackson.version>
     <parquet.version>1.10.1</parquet.version>
   </properties>
 
