@@ -4,6 +4,7 @@ package com.ccreanga.various.leetcode;
 import java.util.ArrayList;
 import java.util.List;
 
+//https://leetcode.com/problems/text-justification/
 public class TextJustification {
     public static List<String> fullJustify(String[] words, int maxWidth) {
         List<List<String>> lines = new ArrayList<>();
@@ -39,8 +40,8 @@ public class TextJustification {
             String first = currentLine.get(0);
             return first + " ".repeat(maxWidth - first.length());
         }
-        int letterLenght = currentLine.stream().map(String::length).reduce(0, Integer::sum);
-        int spaces = (maxWidth - letterLenght);
+        int letterLength = currentLine.stream().map(String::length).reduce(0, Integer::sum);
+        int spaces = (maxWidth - letterLength);
 
 
 
