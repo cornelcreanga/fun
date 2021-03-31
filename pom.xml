@@ -13,7 +13,7 @@
     <java.version>1.11</java.version>
     <junit.version>RELEASE</junit.version>
     <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-    <guava.version>27.0.1-jre</guava.version>
+    <guava.version>29.0-jre</guava.version>
     <commons-csv.version>1.6</commons-csv.version>
     <jmh.version>1.21</jmh.version>
     <mapdb.version>3.0.7</mapdb.version>
