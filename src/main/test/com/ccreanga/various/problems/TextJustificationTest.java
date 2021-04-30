@@ -1,4 +1,4 @@
-package com.ccreanga.various.leetcode;
+package com.ccreanga.various.problems;
 
 import org.junit.Test;
 
