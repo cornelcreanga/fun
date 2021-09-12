@@ -1,11 +1,10 @@
 package com.ccreanga.various.problems.tree;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 public class Traversals {
 
-  private static class Item<T>{
+  private static class Item<T extends Comparable<T>>{
     public Node<T> node;
     public int level;
 
@@ -15,7 +14,7 @@ public class Traversals {
     }
   }
 
-  public static <T> List<Item<T>> breadthOrder(BinaryTree<T> tree){
+  public static <T extends Comparable<T>> List<Item<T>> breadthOrder(BinaryTree<T> tree){
     Queue<Item<T>> queue = new LinkedList<>();
     int level = 1;
     queue.add(new Item<T>(tree.root, level));
@@ -93,8 +92,8 @@ public class Traversals {
     List<Item<Integer>> items = breadthOrder(binaryTree);
     Map<Integer, Integer> rightSide = new HashMap<>();
     for (Item<Integer> integerItem : items) {
-      System.out.println(integerItem.node.getData() +" - "+ integerItem.level);
-      rightSide.put(integerItem.level, integerItem.node.getData());
+      System.out.println(integerItem.node.data() +" - "+ integerItem.level);
+      rightSide.put(integerItem.level, integerItem.node.data());
     }
     System.out.println(rightSide);
 

@@ -56,7 +56,7 @@ public class Serializer {
         Output output = new Output(128,1024);
         for (Message message : messages) {
             kryo.writeObject(output, message);
-            output.clear();
+            output.reset();
         }
     }
 
