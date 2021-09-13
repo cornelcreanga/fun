@@ -1,4 +1,4 @@
-package com.ccreanga.various.compression.huffman.experiments;
+package com.ccreanga.various.compression.experiments;
 
 import net.jpountz.lz4.LZ4Compressor;
 import net.jpountz.lz4.LZ4Factory;
@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 @OutputTimeUnit(TimeUnit.MILLISECONDS)
 @State(Scope.Benchmark)
 @Fork(value = 1, jvmArgs = {"-Xms4G", "-Xmx4G"})
-@Warmup(iterations = 2)
-@Measurement(iterations = 3)
+@Warmup(iterations = 3)
+@Measurement(iterations = 5)
 public class CompressionBenchmark {
 
     public static final int ITERATIONS = 100;
@@ -111,15 +111,17 @@ public class CompressionBenchmark {
         Options opt;
 
         CompressionBenchmark.initialize();
-        System.out.println("snappy.length:" + CompressionBenchmark.snappy.length);
-        System.out.println("lz4.length:" + CompressionBenchmark.lz4.length);
-
 
         opt = new OptionsBuilder()
                 .include(CompressionBenchmark.class.getSimpleName())
                 .verbosity(VerboseMode.NORMAL)
                 .build();
         new Runner(opt).run();
+
+        System.out.println("original.length:" + CompressionBenchmark.originalContent.length);
+        System.out.println("snappy.length:" + CompressionBenchmark.snappy.length);
+        System.out.println("lz4.length:" + CompressionBenchmark.lz4.length);
+
 
     }
 
