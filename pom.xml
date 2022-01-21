@@ -18,7 +18,7 @@
     <jmh.version>1.32</jmh.version>
     <mapdb.version>3.0.8</mapdb.version>
     <jedis.version>3.6.3</jedis.version>
-    <hazelcast.version>4.2.2</hazelcast.version>
+    <hazelcast.version>4.2.4</hazelcast.version>
     <kryo.version>5.2.0</kryo.version>
     <sux4j.version>5.2.3</sux4j.version>
     <koloboke.version>1.0.0</koloboke.version>
