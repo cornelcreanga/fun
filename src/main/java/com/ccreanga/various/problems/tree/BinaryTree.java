@@ -1,6 +1,6 @@
 package com.ccreanga.various.problems.tree;
 
-public class BinaryTree<T> {
+public class BinaryTree<T extends Comparable<T>> {
 
   Node<T> root;
 

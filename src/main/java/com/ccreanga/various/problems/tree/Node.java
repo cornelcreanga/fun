@@ -1,7 +1,7 @@
 package com.ccreanga.various.problems.tree;
 
 
-public class Node<T> {
+public class Node<T extends Comparable<T>> {
 
     private T data;
     private Node<T> left, right;
@@ -36,7 +36,7 @@ public class Node<T> {
         return this;
     }
 
-    public T getData() {
+    public T data() {
         return data;
     }
 }
