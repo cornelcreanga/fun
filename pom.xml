@@ -19,7 +19,7 @@
     <mapdb.version>3.0.7</mapdb.version>
     <jedis.version>3.0.1</jedis.version>
     <hazelcast.version>3.11.2</hazelcast.version>
-    <kryo.version>4.0.2</kryo.version>
+    <kryo.version>5.3.0</kryo.version>
     <sux4j.version>4.3.0</sux4j.version>
     <koloboke.version>1.0.0</koloboke.version>
     <fastutil.version>8.1.0</fastutil.version>
