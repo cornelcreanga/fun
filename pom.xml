@@ -24,7 +24,7 @@
     <koloboke.version>1.0.0</koloboke.version>
     <fastutil.version>8.1.0</fastutil.version>
     <chronicle-map.version>3.17.1</chronicle-map.version>
-    <sizeof.version>0.4.0</sizeof.version>
+    <sizeof.version>0.4.3</sizeof.version>
     <jackson.version>2.9.10</jackson.version>
     <parquet.version>1.10.1</parquet.version>
   </properties>
@@ -38,6 +38,12 @@
 <!--      <artifactId>hadoop-common</artifactId>-->
 <!--      <version>3.2.0</version>-->
 <!--    </dependency>-->
+
+    <dependency>
+      <groupId>org.openjdk.jol</groupId>
+      <artifactId>jol-core</artifactId>
+      <version>0.16</version>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.hadoop</groupId>
@@ -206,8 +212,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
         <configuration>
-          <source>8</source>
-          <target>8</target>
+          <source>11</source>
+          <target>11</target>
         </configuration>
       </plugin>
 

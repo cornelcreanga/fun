@@ -1,4 +1,4 @@
-package com.crowdstrike;
+package com.ccreanga.various.hadoop;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.hadoop.conf.Configuration;
